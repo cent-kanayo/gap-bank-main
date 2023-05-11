@@ -48,6 +48,23 @@
 .hero__right {
   width: 100%;
 }
+
+.how-it {
+  font-size: 3rem;
+}
+.para {
+  font-size: 1.5rem;
+}
+.para1 {
+  font-size: 1.25rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column-reverse;
+}
+
 @media screen and (min-width: 900px) {
   .hero {
     flex-direction: row;
@@ -55,6 +72,7 @@
   .hero__left {
     padding: 5%;
     width: 50%;
+    flex-grow: 1;
   }
   .hero__right {
     width: 50%;
@@ -63,8 +81,9 @@
     display: none;
   }
   .hero__left .large-text {
-    font-size: 4rem;
+    font-size: 5.5rem;
     display: block;
+    white-space: nowrap;
   }
   .line {
     display: block;
@@ -75,5 +94,8 @@
   .nav-header {
     display: block;
     width: max-content;
+  }
+  .footer {
+    flex-direction: row;
   }
 }

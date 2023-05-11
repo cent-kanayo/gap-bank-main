@@ -9,25 +9,23 @@ import {
   Row,
   UncontrolledTooltip,
 } from 'reactstrap';
-import { motion } from 'framer-motion';
 
 import Landing1 from '../../assets/images/landing.png';
 import './Home.css';
 
+import { Slide, Fade } from 'react-awesome-reveal';
+
 const Home = () => {
-  const transition = { type: 'spring', duration: 3 };
   return (
     <React.Fragment>
       <section className="section job-hero-section bg-light pb-0" id="home">
         <div className="hero">
           <div className="hero__left">
             <h1 className="fw-bold text-capitalize mb-3 lh-base text-primary mobile-text">
-              BANKING MADE EASY START AFRESH WITH GAPBANK
+              BANKING MADE EASY START AFRESH WITH GAPFINANCE
             </h1>
             <h1 className="fw-bold text-capitalize mb-3 lh-base text-primary large-text">
-              BANKING MADE EASY
-              <br />
-              START AFRESH WITH GAPBANK
+              Start afresh <br /> with GAPFINANCE
             </h1>
 
             {/* text-muted */}
@@ -114,15 +112,13 @@ const Home = () => {
                     </h5>
                   </div>
                 </Card> */}
-            <motion.img
-              initial={{ opacity: 0, x: 500 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 500 }}
-              transition={transition}
-              src={Landing1}
-              alt="our customers avatar"
-              className="user-img"
-            />
+            <Slide duration="1500" direction="right">
+              <img
+                src={Landing1}
+                alt="our customers avatar"
+                className="user-img"
+              />
+            </Slide>
 
             <img alt="" />
 

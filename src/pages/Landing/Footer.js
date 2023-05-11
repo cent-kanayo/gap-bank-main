@@ -1,14 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Col, Container, Row } from "reactstrap";
-import LogoLight from "../../assets/images/logo-light.png";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Col, Container, Row } from 'reactstrap';
+import LogoLight from '../../assets/images/logo-light.png';
 
 const Footer = () => {
   return (
     <React.Fragment>
       <footer className="custom-footer bg-primary py-5 position-relative">
         <Container>
-          <Row>
+          <Row xs="1" md="2">
             <Col className="col-lg-4 mt-4">
               <div>
                 <div>
@@ -16,7 +16,11 @@ const Footer = () => {
                 </div>
                 <div className="mt-4 fs-15">
                   <p>
-                    We are a financial services company led by individuals with over 35years collective investment banking, Corporate finance, retail banking & financial techology experience, working to provide tailored financial solutions to both private individuals and businesses.
+                    We are a financial services company led by individuals with
+                    over 35years collective investment banking, Corporate
+                    finance, retail banking & financial techology experience,
+                    working to provide tailored financial solutions to both
+                    private individuals and businesses.
                   </p>
                   <ul className="list-inline mb-0 footer-social-link">
                     <li className="list-inline-item">
