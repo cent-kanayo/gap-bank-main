@@ -9,7 +9,7 @@ const Footer = () => {
       <footer className="custom-footer bg-primary py-5 position-relative">
         <Container>
           <Row xs="1" md="2">
-            <Col className="col-lg-4 mt-4">
+            <Col className="col-lg-4 mt-4" xs="order-2">
               <div>
                 <div>
                   <img src={LogoLight} alt="logo light" height="38" />
@@ -63,7 +63,7 @@ const Footer = () => {
               </div>
             </Col>
 
-            <Col className="col-lg-7 ms-lg-auto">
+            <Col className="col-lg-7 ms-lg-auto" xs="order-1">
               <Row>
                 <Col className="col-sm-4 mt-4">
                   <h5 className="text-white mb-0">Company</h5>

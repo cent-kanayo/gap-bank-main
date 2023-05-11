@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Scrollspy from 'react-scrollspy';
 import { Collapse, Container, NavbarToggler, NavLink, Row } from 'reactstrap';
@@ -8,8 +8,11 @@ import './Home.css';
 const Navbar = () => {
   const [isOpenMenu, setisOpenMenu] = useState(false);
   const [navClass, setnavClass] = useState('');
+  const navRef = useRef(null);
 
-  const toggle = () => setisOpenMenu(!isOpenMenu);
+  const toggle = () => {
+    navRef.current.classList.toggle('show-nav');
+  };
 
   useEffect(() => {
     window.addEventListener('scroll', scrollNavigation, true);
@@ -49,21 +52,17 @@ const Navbar = () => {
                   height="42"
                 />
               </Link>
-              <NavbarToggler
+              <button
                 onClick={toggle}
                 className="navbar-toggler py-0 fs-20 text-body"
                 type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
                 aria-label="Toggle navigation"
               >
                 <i className="mdi mdi-menu"></i>
-              </NavbarToggler>
+              </button>
             </div>
 
-            <div className="nav-link">
+            <div className="nav-link" ref={navRef}>
               <div>
                 <Collapse
                   className="navbar-collapse"
