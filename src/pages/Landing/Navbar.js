@@ -2,16 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Scrollspy from 'react-scrollspy';
 import { Collapse, Container, NavbarToggler, NavLink, Row } from 'reactstrap';
-import LogoDark from '../../assets/images/logo-dark.png';
+import LogoDark from '../../assets/images/gapfinance-bluelogo.png';
 import LogoLight from '../../assets/images/logo-light.png';
 import './Home.css';
+import Sidebar from './Sidebar';
 const Navbar = () => {
   const [isOpenMenu, setisOpenMenu] = useState(false);
   const [navClass, setnavClass] = useState('');
   const navRef = useRef(null);
 
   const toggle = () => {
-    navRef.current.classList.toggle('show-nav');
+    navRef.current.classList.add('show-sidebar');
   };
 
   useEffect(() => {
@@ -43,7 +44,8 @@ const Navbar = () => {
                   src={LogoDark}
                   className="card-logo card-logo-dark"
                   alt="logo dark"
-                  height="42"
+                  width={40}
+                  style={{ objectFit: 'cover' }}
                 />
                 <img
                   src={LogoLight}
@@ -101,13 +103,6 @@ const Navbar = () => {
                       </NavLink>
                     </li>
                   </Scrollspy>
-
-                  {/* <div>
-              <Link to="/auth-signin-basic" className="btn btn-soft-primary">
-              <i className="ri-user-3-line align-bottom me-1"></i> Login &
-              Register
-              </Link>
-            </div> */}
                 </Collapse>
               </div>
               <div className="line"></div>
@@ -125,6 +120,7 @@ const Navbar = () => {
             </div>
           </div>
         </Container>
+        <Sidebar navRef={navRef} />
       </nav>
     </React.Fragment>
   );
