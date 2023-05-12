@@ -22,7 +22,7 @@ const Home = () => {
         <div className="hero">
           <div className="hero__left">
             <h1 className="fw-bold text-capitalize mb-3 lh-base text-primary mobile-text">
-              BANKING MADE EASY START AFRESH WITH GAPFINANCE
+              START AFRESH WITH GAPFINANCE
             </h1>
             <h1 className="fw-bold text-capitalize mb-3 lh-base text-primary large-text">
               Start afresh <br /> with GAPFINANCE

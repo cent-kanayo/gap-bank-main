@@ -118,7 +118,7 @@ const Navbar = () => {
                   to="/register"
                   className="btn btn-shadow btn-primary fw-bold"
                 >
-                  Join GAP Bank
+                  Join GAP Finance
                 </Link>
               </div>
             </div>
