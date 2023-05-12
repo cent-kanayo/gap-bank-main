@@ -42,8 +42,8 @@ const WorkProcess = () => {
                     Create an account
                   </h4>
                   <p className="ff-secondary para1">
-                    Register yourself as a GAP Bank customer. Create either a
-                    Peronal or Business account.
+                    Register yourself as a GAP Finance customer. Create either a
+                    Personal or Business account.
                   </p>
                 </div>
               </Zoom>

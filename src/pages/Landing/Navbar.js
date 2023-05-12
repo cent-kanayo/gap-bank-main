@@ -44,15 +44,16 @@ const Navbar = () => {
                   src={LogoDark}
                   className="card-logo card-logo-dark"
                   alt="logo dark"
-                  width={40}
+                  width="100"
+                  height="58"
                   style={{ objectFit: 'cover' }}
                 />
-                <img
+                {/* <img
                   src={LogoLight}
                   className="card-logo card-logo-light"
                   alt="logo light"
                   height="42"
-                />
+                /> */}
               </Link>
               <button
                 onClick={toggle}

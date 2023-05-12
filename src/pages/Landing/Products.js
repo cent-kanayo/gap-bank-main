@@ -23,8 +23,11 @@ const Products = () => {
                   Why our product are different.
                 </h3>
                 <p className="mb-4 ff-secondary fs-16">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  We stand out for their convenience, cost savings, and enhanced
+                  security. Customers can manage their finances from anywhere
+                  using their computer or mobile device, and often enjoy lower
+                  fees and higher interest rates. With advanced security
+                  features, we provide a safe and secure option for banking.
                 </p>
               </div>
             </Col>
@@ -77,7 +80,7 @@ const Products = () => {
                 <div className="flex-grow-1">
                   <h5 className="fs-18">Withdrawals</h5>
                   <p className="my-3 ff-secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    We make withdrawals convenient and fast.
                   </p>
                   {/* <div>
                                         <Link to="#" className="fs-13 fw-medium">Learn More <i className="ri-arrow-right-s-line align-bottom"></i></Link>
@@ -98,7 +101,8 @@ const Products = () => {
                 <div className="flex-grow-1">
                   <h5 className="fs-18">Fund Transfer</h5>
                   <p className="my-3 ff-secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Send money to loved ones or business transactions in a
+                    heartbeat.
                   </p>
                   {/* <div>
                                         <Link to="#" className="fs-13 fw-medium">Learn More <i className="ri-arrow-right-s-line align-bottom"></i></Link>
@@ -119,7 +123,8 @@ const Products = () => {
                 <div className="flex-grow-1">
                   <h5 className="fs-18">Investment</h5>
                   <p className="my-3 ff-secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Make a passive income from dividends paid directly into your
+                    trading account
                   </p>
                   {/* <div>
                                         <Link to="#" className="fs-13 fw-medium">Learn More <i className="ri-arrow-right-s-line align-bottom"></i></Link>
@@ -140,7 +145,7 @@ const Products = () => {
                 <div className="flex-grow-1">
                   <h5 className="fs-18">Business Loans</h5>
                   <p className="my-3 ff-secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Access business loans easily when you bank with us
                   </p>
                   {/* <div>
                                         <Link to="#" className="fs-13 fw-medium">Learn More <i className="ri-arrow-right-s-line align-bottom"></i></Link>
@@ -161,7 +166,7 @@ const Products = () => {
                 <div className="flex-grow-1">
                   <h5 className="fs-18">Bills Payment</h5>
                   <p className="my-3 ff-secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    pay bills instantly with our intuitive dashboard
                   </p>
                   {/* <div>
                                         <Link to="#" className="fs-13 fw-medium">Learn More <i className="ri-arrow-right-s-line align-bottom"></i></Link>
@@ -182,7 +187,8 @@ const Products = () => {
                 <div className="flex-grow-1">
                   <h5 className="fs-18">Savings</h5>
                   <p className="my-3 ff-secondary">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    keeping money away for the future is smart but it takes
+                    discipline….we can help
                   </p>
                   {/* <div>
                                         <Link to="#" className="fs-13 fw-medium">Learn More <i className="ri-arrow-right-s-line align-bottom"></i></Link>

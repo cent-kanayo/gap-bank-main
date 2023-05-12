@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
-import LogoLight from '../../assets/images/logo-light.png';
+import LogoLight from '../../assets/images/gapfinance-whitelogo.png';
 
 const Footer = () => {
   return (
@@ -12,13 +12,19 @@ const Footer = () => {
             <Col className="col-lg-4 mt-4" xs="order-2">
               <div>
                 <div>
-                  <img src={LogoLight} alt="logo light" height="38" />
+                  <img
+                    src={LogoLight}
+                    alt="logo light"
+                    height="58"
+                    width="100"
+                    style={{ objectFit: 'cover' }}
+                  />
                 </div>
-                <div className="mt-4 fs-15">
+                <div className="mt-2 fs-15">
                   <p>
                     We are a financial services company led by individuals with
                     over 35years collective investment banking, Corporate
-                    finance, retail banking & financial techology experience,
+                    finance, retail banking & financial technology experience,
                     working to provide tailored financial solutions to both
                     private individuals and businesses.
                   </p>

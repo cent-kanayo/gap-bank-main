@@ -19,7 +19,7 @@ const Benefits = () => {
                   --Benefits
                 </h5>
                 <h4 className="mb-3 fw-bold text-secondary">
-                  Gap Bank, one app unlimited possibilities
+                  Gap Finance, one app unlimited possibilities
                 </h4>
                 <div className="vstack gap-1">
                   <div className="d-flex">
@@ -32,9 +32,9 @@ const Benefits = () => {
                     </div>
                     <div className="flex-grow-1">
                       <p className="mb-4 ff-secondary">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
+                        Our Customers can have peace of mind knowing that their
+                        personal and financial information is secure with their
+                        online bank
                       </p>
                     </div>
                   </div>
@@ -51,9 +51,9 @@ const Benefits = () => {
                     </div>
                     <div className="flex-grow-1">
                       <p className="mb-4 ff-secondary">
-                        Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        Duis aute irure dolor in reprehenderit in
+                        Our Customers can have peace of mind knowing that their
+                        personal and financial information is secure with their
+                        online bank
                       </p>
                     </div>
                   </div>
