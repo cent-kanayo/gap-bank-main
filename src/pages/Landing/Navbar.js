@@ -109,12 +109,15 @@ const Navbar = () => {
               <div className="line"></div>
               <div className="cta">
                 <Link
-                  to="/signin"
+                  to="/login"
                   className="btn btn-link fw-bold text-decoration-none text-dark"
                 >
                   Sign in
                 </Link>
-                <Link to="/join" className="btn btn-shadow btn-primary fw-bold">
+                <Link
+                  to="/register"
+                  className="btn btn-shadow btn-primary fw-bold"
+                >
                   Join GAP Bank
                 </Link>
               </div>
