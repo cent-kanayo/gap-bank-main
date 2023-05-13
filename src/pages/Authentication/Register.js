@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Row,
   Col,
@@ -21,7 +21,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // action
-import { registerUser, apiError, resetRegisterFlag } from '../../store/actions';
+// import { registerUser, apiError, resetRegisterFlag } from '../../store/actions';
+
+import { registerUser } from '../../store/features/auth';
 
 //redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -35,52 +37,81 @@ import ParticlesAuth from '../AuthenticationInner/ParticlesAuth';
 const Register = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
+  const [businessName, setBusinessName] = useState('');
+  const [accountType, setAccountType] = useState('savings');
+  const [accountCategory, setAccountCategory] = useState('personal');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const validation = useFormik({
-    // enableReinitialize : use this flag when initial values needs to be changed
-    enableReinitialize: true,
+  // const validation = useFormik({
+  //   // enableReinitialize : use this flag when initial values needs to be changed
+  //   enableReinitialize: true,
 
-    initialValues: {
-      email: '',
-      first_name: '',
-      password: '',
-      confirm_password: '',
-    },
-    validationSchema: Yup.object({
-      email: Yup.string().required('Please Enter Your Email'),
-      first_name: Yup.string().required('Please Enter Your Username'),
-      password: Yup.string().required('Please Enter Your Password'),
-      confirm_password: Yup.string().when('password', {
-        is: (val) => (val && val.length > 0 ? true : false),
-        then: Yup.string().oneOf(
-          [Yup.ref('password')],
-          "Confirm Password Isn't Match"
-        ),
-      }),
-    }),
-    onSubmit: (values) => {
-      dispatch(registerUser(values));
-    },
-  });
+  //   initialValues: {
+  //     businessName: '',
+  //     accountCategory: '',
+  //     accountType: '',
+  //     email: '',
+  //     password: '',
+  //   },
+  //   validationSchema: Yup.object({
+  //     email: Yup.string().required('Please Enter Your Email'),
+  //     businessName: Yup.string().required('Please Enter Your Business'),
+  //     accountType: Yup.string().required('Please Enter Your Account Type'),
+  //     accountCategory: Yup.string().required('Please Enter Account Category'),
+  //     password: Yup.string().required('Please Enter Your Password'),
+  //     confirm_password: Yup.string().when('password', {
+  //       is: (val) => (val && val.length > 0 ? true : false),
+  //       then: Yup.string().oneOf(
+  //         [Yup.ref('password')],
+  //         "Confirm Password Isn't Match"
+  //       ),
+  //     }),
+  //   }),
+  //   onSubmit: (values) => {
+  //     dispatch(registerUser(values));
+  //   },
+  // });
 
-  const { error, registrationError, success } = useSelector((state) => ({
-    registrationError: state.Account.registrationError,
-    success: state.Account.success,
-    error: state.Account.error,
-  }));
+  const { error, success } = useSelector((state) => state.account);
 
-  useEffect(() => {
-    dispatch(apiError(''));
-  }, [dispatch]);
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    if (
+      accountCategory === 'business' &&
+      (!businessName || !accountCategory || !accountType || !email || !password)
+    ) {
+      return;
+    }
+    if (
+      accountCategory === 'personal' &&
+      (!accountCategory || !accountType || !email || !password)
+    ) {
+      return;
+    }
+    dispatch(
+      registerUser({
+        businessName,
+        accountCategory,
+        accountType,
+        email,
+        password,
+      })
+    );
+  };
+
+  // useEffect(() => {
+  //   dispatch(apiError(''));
+  // }, [dispatch]);
 
   useEffect(() => {
     if (success) {
-      setTimeout(() => history('/login'), 3000);
+      setTimeout(() => history('/dashboard'), 3000);
     }
 
-    setTimeout(() => {
-      dispatch(resetRegisterFlag());
-    }, 3000);
+    // setTimeout(() => {
+    //   dispatch(resetRegisterFlag());
+    // }, 3000);
   }, [dispatch, success, error, history]);
 
   document.title = 'Basic SignUp | Velzon - React Admin & Dashboard Template';
@@ -98,9 +129,9 @@ const Register = () => {
                       <img src={logoLight} alt="" height="20" />
                     </Link>
                   </div>
-                  <p className="mt-3 fs-15 fw-medium">
+                  {/* <p className="mt-3 fs-15 fw-medium">
                     Premium Admin & Dashboard Template
-                  </p>
+                  </p> */}
                 </div>
               </Col>
             </Row>
@@ -117,13 +148,8 @@ const Register = () => {
                     </div>
                     <div className="p-2 mt-4">
                       <Form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          validation.handleSubmit();
-                          return false;
-                        }}
+                        onSubmit={onFormSubmit}
                         className="needs-validation"
-                        action="#"
                       >
                         {success && success ? (
                           <>
@@ -137,11 +163,10 @@ const Register = () => {
                             <ToastContainer autoClose={2000} limit={1} />
                             <Alert color="success">
                               Register User Successfully and Your Redirect To
-                              Login Page...
+                              Dashboard...
                             </Alert>
                           </>
                         ) : null}
-
                         {error && error ? (
                           <Alert color="danger">
                             <div>
@@ -151,60 +176,56 @@ const Register = () => {
                             </div>
                           </Alert>
                         ) : null}
-
                         <div className="mb-3">
                           <Label htmlFor="useremail" className="form-label">
-                            Email <span className="text-danger">*</span>
+                            Business Name{' '}
+                            {accountType === 'Business' && (
+                              <span className="text-danger">*</span>
+                            )}
                           </Label>
                           <Input
-                            id="email"
-                            name="email"
+                            id="businessName"
+                            name="businessName"
                             className="form-control"
-                            placeholder="Enter email address"
-                            type="email"
-                            onChange={validation.handleChange}
-                            onBlur={validation.handleBlur}
-                            value={validation.values.email || ''}
-                            invalid={
-                              validation.touched.email &&
-                              validation.errors.email
-                                ? true
-                                : false
-                            }
+                            placeholder="Enter business"
+                            onChange={(e) => setBusinessName(e.target.value)}
+                            value={businessName}
                           />
-                          {validation.touched.email &&
-                          validation.errors.email ? (
-                            <FormFeedback type="invalid">
-                              <div>{validation.errors.email}</div>
-                            </FormFeedback>
-                          ) : null}
+                        </div>
+                        <div className="mb-3">
+                          <Label htmlFor="useremail" className="form-label">
+                            Account Category{' '}
+                            <span className="text-danger">*</span>
+                          </Label>
+                          <select
+                            value={accountCategory}
+                            onChange={(e) => setAccountCategory(e.target.value)}
+                          >
+                            <option value="personal">Personal</option>
+                            <option value="business">Business</option>
+                          </select>
+                        </div>
+                        <div className="mb-3">
+                          <Label htmlFor="useremail" className="form-label">
+                            AccountType <span className="text-danger">*</span>
+                          </Label>
+                          <select value={accountType}>
+                            <option value="savings">Savings</option>
+                            <option value="current">Current</option>
+                          </select>
                         </div>
                         <div className="mb-3">
                           <Label htmlFor="username" className="form-label">
-                            Username <span className="text-danger">*</span>
+                            Email <span className="text-danger">*</span>
                           </Label>
                           <Input
                             name="first_name"
-                            type="text"
-                            placeholder="Enter username"
-                            onChange={validation.handleChange}
-                            onBlur={validation.handleBlur}
-                            value={validation.values.first_name || ''}
-                            invalid={
-                              validation.touched.first_name &&
-                              validation.errors.first_name
-                                ? true
-                                : false
-                            }
+                            type="email"
+                            placeholder="Enter email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
                           />
-                          {validation.touched.first_name &&
-                          validation.errors.first_name ? (
-                            <FormFeedback type="invalid">
-                              <div>{validation.errors.first_name}</div>
-                            </FormFeedback>
-                          ) : null}
                         </div>
-
                         <div className="mb-3">
                           <Label htmlFor="userpassword" className="form-label">
                             Password <span className="text-danger">*</span>
@@ -213,52 +234,9 @@ const Register = () => {
                             name="password"
                             type="password"
                             placeholder="Enter Password"
-                            onChange={validation.handleChange}
-                            onBlur={validation.handleBlur}
-                            value={validation.values.password || ''}
-                            invalid={
-                              validation.touched.password &&
-                              validation.errors.password
-                                ? true
-                                : false
-                            }
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
                           />
-                          {validation.touched.password &&
-                          validation.errors.password ? (
-                            <FormFeedback type="invalid">
-                              <div>{validation.errors.password}</div>
-                            </FormFeedback>
-                          ) : null}
-                        </div>
-
-                        <div className="mb-2">
-                          <Label
-                            htmlFor="confirmPassword"
-                            className="form-label"
-                          >
-                            Confirm Password{' '}
-                            <span className="text-danger">*</span>
-                          </Label>
-                          <Input
-                            name="confirm_password"
-                            type="password"
-                            placeholder="Confirm Password"
-                            onChange={validation.handleChange}
-                            onBlur={validation.handleBlur}
-                            value={validation.values.confirm_password || ''}
-                            invalid={
-                              validation.touched.confirm_password &&
-                              validation.errors.confirm_password
-                                ? true
-                                : false
-                            }
-                          />
-                          {validation.touched.confirm_password &&
-                          validation.errors.confirm_password ? (
-                            <FormFeedback type="invalid">
-                              <div>{validation.errors.confirm_password}</div>
-                            </FormFeedback>
-                          ) : null}
                         </div>
 
                         <div className="mb-4">
@@ -272,7 +250,6 @@ const Register = () => {
                             </Link>
                           </p>
                         </div>
-
                         <div className="mt-4">
                           <button
                             className="btn btn-success w-100"
@@ -281,7 +258,6 @@ const Register = () => {
                             Sign Up
                           </button>
                         </div>
-
                         <div className="mt-4 text-center">
                           <div className="signin-other-title">
                             <h5 className="fs-13 mb-4 title text-muted">

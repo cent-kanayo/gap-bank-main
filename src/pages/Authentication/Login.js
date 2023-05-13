@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Card,
   Col,
@@ -13,10 +13,36 @@ import {
 import CountUp from 'react-countup';
 
 import img from '../../assets/images/auth-one.png';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { loginUser } from '../../store/features/auth';
 
 const Login = () => {
   document.title = 'GAP Bank | Signin';
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { loading, success, error } = useSelector((state) => state.account);
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      return;
+    }
+    dispatch(loginUser({ email, password }));
+  };
+
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => navigate('/dashboard'), 3000);
+    }
+
+    // setTimeout(() => {
+    //   dispatch(resetRegisterFlag());
+    // }, 3000);
+  }, [dispatch, success, error, navigate]);
   return (
     <React.Fragment>
       <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
@@ -86,7 +112,7 @@ const Login = () => {
                         </div>
 
                         <div className="mt-5">
-                          <form action="/">
+                          <form onSubmit={onFormSubmit}>
                             <div className="mb-3">
                               <Label htmlFor="email" className="form-label">
                                 Your Email*
@@ -97,12 +123,8 @@ const Login = () => {
                                 className="form-control"
                                 placeholder="example@mail.com"
                                 type="email"
-                                // onChange={validation.handleChange}
-                                // onBlur={validation.handleBlur}
-                                // value={validation.values.email || ""}
-                                // invalid={
-                                //     validation.touched.email && validation.errors.email ? true : false
-                                // }
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
                               />
                             </div>
 
@@ -119,6 +141,8 @@ const Login = () => {
                                   className="form-control pe-5 password-input fw-bold"
                                   placeholder="........."
                                   id="password-input"
+                                  value={password}
+                                  onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <button
                                   className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
@@ -141,6 +165,7 @@ const Login = () => {
                                 color="primary"
                                 className="w-100 rounded-pill"
                                 type="submit"
+                                disabled={loading}
                               >
                                 Sign In
                               </Button>
