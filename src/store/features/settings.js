@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseUrl = 'http://16.16.103.106';
+const baseUrl = 'https://api.gapfinance.ng';
 
 export const fetchRoles = createAsyncThunk(
   'settings/fetchRoles',

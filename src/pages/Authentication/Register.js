@@ -106,7 +106,7 @@ const Register = () => {
 
   useEffect(() => {
     if (success) {
-      setTimeout(() => history('/dashboard'), 3000);
+      setTimeout(() => history('/auth-twostep-basic'), 3000);
     }
 
     // setTimeout(() => {

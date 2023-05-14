@@ -1,13 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseUrl = 'http://16.16.103.106';
+const baseUrl = 'https://api.gapfinance.ng';
+
+const getUserFromStorage = () => {
+  const user = localStorage.getItem('user');
+  const result = user ? user : {};
+  return result;
+};
 
 const initialState = {
   loading: false,
   error: false,
   errorMsg: '',
-  user: {},
+  isActivated: false,
+  user: getUserFromStorage(),
   success: false,
 };
 
@@ -18,6 +25,7 @@ export const registerUser = createAsyncThunk(
       const response = await axios.post(`${baseUrl}/auth/register`, user, {
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -30,6 +38,22 @@ export const confirmEmail = createAsyncThunk(
   async (details, thunkAPI) => {
     try {
       const response = await axios.post(`${baseUrl}/auth/authorize`, details);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      thunkAPI.rejectWithValue(error.response.message);
+    }
+  }
+);
+
+export const activate = createAsyncThunk(
+  'account/activate',
+  async (details, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        `${baseUrl}/auth/activate-account`,
+        details
+      );
       return response.data;
     } catch (error) {
       console.log(error);
@@ -135,9 +159,24 @@ const accountSlice = createSlice({
     [registerUser.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.success = true;
-      state.account = payload;
+      state.user = payload;
+      localStorage.setItem('user', JSON.stringify(payload));
     },
     [registerUser.rejected]: (state, { payload }) => {
+      state.loading = true;
+      state.error = true;
+      state.success = false;
+      state.errorMsg = payload;
+    },
+    [activate.pending]: (state) => {
+      state.loading = true;
+    },
+    [activate.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.isActivated = true;
+      state.account = payload;
+    },
+    [activate.rejected]: (state, { payload }) => {
       state.loading = true;
       state.error = true;
       state.success = false;

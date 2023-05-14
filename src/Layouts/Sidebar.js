@@ -1,30 +1,37 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import SimpleBar from "simplebar-react";
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import SimpleBar from 'simplebar-react';
 //import logo
-import logoSm from "../assets/images/logo-sm.png";
-import logoDark from "../assets/images/logo-dark.png";
-import logoLight from "../assets/images/logo-light.png";
+import logoSm from '../assets/images/logo-sm.png';
+import logoDark from '../assets/images/logo-dark.png';
+import logoLight from '../assets/images/logo-light.png';
 
-import VerticalLayout from "./VerticalLayouts";
-import { Container } from "reactstrap";
+import VerticalLayout from './VerticalLayouts';
+import { Container } from 'reactstrap';
 
 const Sidebar = ({ layoutType }) => {
-
   useEffect(() => {
-    var verticalOverlay = document.getElementsByClassName("vertical-overlay");
+    var verticalOverlay = document.getElementsByClassName('vertical-overlay');
     if (verticalOverlay) {
-      verticalOverlay[0].addEventListener("click", function () {
-        document.body.classList.remove("vertical-sidebar-enable");
+      verticalOverlay[0].addEventListener('click', function () {
+        document.body.classList.remove('vertical-sidebar-enable');
       });
     }
   });
 
   const addEventListenerOnSmHoverMenu = () => {
     // add listener Sidebar Hover icon on change layout from setting
-    if (document.documentElement.getAttribute('data-sidebar-size') === 'sm-hover') {
-      document.documentElement.setAttribute('data-sidebar-size', 'sm-hover-active');
-    } else if (document.documentElement.getAttribute('data-sidebar-size') === 'sm-hover-active') {
+    if (
+      document.documentElement.getAttribute('data-sidebar-size') === 'sm-hover'
+    ) {
+      document.documentElement.setAttribute(
+        'data-sidebar-size',
+        'sm-hover-active'
+      );
+    } else if (
+      document.documentElement.getAttribute('data-sidebar-size') ===
+      'sm-hover-active'
+    ) {
       document.documentElement.setAttribute('data-sidebar-size', 'sm-hover');
     } else {
       document.documentElement.setAttribute('data-sidebar-size', 'sm-hover');

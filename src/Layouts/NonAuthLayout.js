@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import withRouter from '../Components/Common/withRouter';
 
 //redux
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 const NonAuthLayout = ({ children }) => {
   // const {

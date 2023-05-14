@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Card,
   Col,
@@ -14,8 +14,64 @@ import Landing1 from '../../assets/images/landing.png';
 import './Home.css';
 
 import { Slide, Fade } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { registerUser } from '../../store/features/auth';
 
 const Home = () => {
+  const [email, setEmail] = useState('');
+  const [accountType, setAccountType] = useState('Account type');
+  const [accountCategory, setAccountCategory] = useState('Account category');
+  const [business, setBusiness] = useState('');
+  const [isBusiness, setIsBusiness] = useState(false);
+
+  const dispatch = useDispatch();
+  const history = useNavigate();
+  const { error, success, loading } = useSelector((state) => state.account);
+
+  useEffect(() => {
+    if (accountCategory === 'business') {
+      setIsBusiness(true);
+    } else {
+      setIsBusiness(false);
+    }
+  }, [accountCategory]);
+
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    if (
+      accountCategory === 'business' &&
+      accountType === 'savings' &&
+      (!email || !business || !accountType)
+    ) {
+      return;
+    }
+    if (accountCategory === 'personal' && (!email || !accountType)) {
+      return;
+    }
+    if (accountCategory === 'personal') {
+      dispatch(registerUser({ email, accountType, accountCategory }));
+      return;
+    }
+    dispatch(
+      registerUser({
+        email,
+        accountType,
+        accountCategory,
+        businessName: business,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => history('/auth-twostep-basic'), 3000);
+    }
+
+    // setTimeout(() => {
+    //   dispatch(resetRegisterFlag());
+    // }, 3000);
+  }, [dispatch, success, error, history]);
   return (
     <React.Fragment>
       <section className="section job-hero-section bg-light pb-0" id="home">
@@ -36,32 +92,66 @@ const Home = () => {
               supporting the youths.
             </p>
 
-            <Form action="#" className="job-panel-filter">
+            <Form onSubmit={onFormSubmit} className="job-panel-filter">
               <Row className="g-md-0 g-2">
                 <Col className="col-md-4">
                   <div>
                     <Input
-                      type="search"
-                      id="job-title"
+                      type="text"
                       className="form-control filter-input-box"
-                      placeholder="Mobile No."
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </Col>
                 <Col className="col-md-4">
                   <div>
-                    <select className="form-control" data-choices>
+                    <select
+                      className="form-control"
+                      data-choices
+                      value={accountType}
+                      onChange={(e) => setAccountType(e.target.value)}
+                    >
                       <option value="">Account type</option>
-                      <option value="Personal">Personal</option>
-                      <option value="Business">Business</option>
+                      <option value="savings">Savings</option>
+                      <option value="current">Current</option>
                     </select>
                   </div>
                 </Col>
+                <Col className="col-md-4">
+                  <div>
+                    <select
+                      className="form-control"
+                      data-choices
+                      value={accountCategory}
+                      onChange={(e) => setAccountCategory(e.target.value)}
+                    >
+                      <option value="">Account type</option>
+                      <option value="personal">Personal</option>
+                      <option value="business">Business</option>
+                    </select>
+                  </div>
+                </Col>
+                {isBusiness && (
+                  <Col className="col-md-4">
+                    <div>
+                      <Input
+                        type="text"
+                        className="form-control filter-input-box"
+                        placeholder="Business Name"
+                        value={business}
+                        onChange={(e) => setBusiness(e.target.value)}
+                      />
+                    </div>
+                  </Col>
+                )}
                 <Col className="col-md-4">
                   <div className="h-100">
                     <button
                       className="btn btn-primary submit-btn w-100 h-100"
                       type="submit"
+                      disabled={loading}
                     >
                       <i className="ri-bank-line align-bottom me-1"></i> Create
                       Account

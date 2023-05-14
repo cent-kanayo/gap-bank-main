@@ -92,9 +92,8 @@
     display: none;
   }
   .hero__left .large-text {
-    font-size: 5.5rem;
+    font-size: 4.5rem;
     display: block;
-    white-space: nowrap;
   }
   .line {
     display: block;
