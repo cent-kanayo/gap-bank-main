@@ -74,7 +74,7 @@ const Home = () => {
   }, [dispatch, success, error, history]);
   return (
     <React.Fragment>
-      <section className="section job-hero-section bg-light pb-0" id="home">
+      <section className="section hero-section bg-light pb-0" id="home">
         <div className="hero">
           <div className="hero__left">
             <h1 className="fw-bold text-capitalize mb-3 lh-base text-primary mobile-text">
