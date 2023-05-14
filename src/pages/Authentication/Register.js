@@ -14,8 +14,6 @@ import {
 } from 'reactstrap';
 
 // Formik Validation
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -37,41 +35,12 @@ import ParticlesAuth from '../AuthenticationInner/ParticlesAuth';
 const Register = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
-  const [businessName, setBusinessName] = useState('');
+  const [business, setBusinessName] = useState('');
   const [accountType, setAccountType] = useState('savings');
   const [accountCategory, setAccountCategory] = useState('personal');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // const validation = useFormik({
-  //   // enableReinitialize : use this flag when initial values needs to be changed
-  //   enableReinitialize: true,
-
-  //   initialValues: {
-  //     businessName: '',
-  //     accountCategory: '',
-  //     accountType: '',
-  //     email: '',
-  //     password: '',
-  //   },
-  //   validationSchema: Yup.object({
-  //     email: Yup.string().required('Please Enter Your Email'),
-  //     businessName: Yup.string().required('Please Enter Your Business'),
-  //     accountType: Yup.string().required('Please Enter Your Account Type'),
-  //     accountCategory: Yup.string().required('Please Enter Account Category'),
-  //     password: Yup.string().required('Please Enter Your Password'),
-  //     confirm_password: Yup.string().when('password', {
-  //       is: (val) => (val && val.length > 0 ? true : false),
-  //       then: Yup.string().oneOf(
-  //         [Yup.ref('password')],
-  //         "Confirm Password Isn't Match"
-  //       ),
-  //     }),
-  //   }),
-  //   onSubmit: (values) => {
-  //     dispatch(registerUser(values));
-  //   },
-  // });
+  const [isBusiness, setIsBusiness] = useState(false);
 
   const { error, success } = useSelector((state) => state.account);
 
@@ -79,30 +48,38 @@ const Register = () => {
     e.preventDefault();
     if (
       accountCategory === 'business' &&
-      (!businessName || !accountCategory || !accountType || !email || !password)
+      accountType === 'savings' &&
+      (!email || !business || !accountType)
     ) {
       return;
     }
-    if (
-      accountCategory === 'personal' &&
-      (!accountCategory || !accountType || !email || !password)
-    ) {
+    if (accountCategory === 'personal' && (!email || !accountType)) {
+      return;
+    }
+    if (accountCategory === 'personal') {
+      dispatch(registerUser({ email, accountType, accountCategory }));
       return;
     }
     dispatch(
       registerUser({
-        businessName,
-        accountCategory,
-        accountType,
         email,
-        password,
+        accountType,
+        accountCategory,
+        businessName: business,
       })
     );
   };
-
   // useEffect(() => {
   //   dispatch(apiError(''));
   // }, [dispatch]);
+
+  useEffect(() => {
+    if (accountCategory === 'business') {
+      setIsBusiness(true);
+    } else {
+      setIsBusiness(false);
+    }
+  }, [accountCategory]);
 
   useEffect(() => {
     if (success) {
@@ -143,7 +120,7 @@ const Register = () => {
                     <div className="text-center mt-2">
                       <h5 className="text-primary">Create New Account</h5>
                       <p className="text-muted">
-                        Get your free velzon account now
+                        Get your free GAP Finance account now
                       </p>
                     </div>
                     <div className="p-2 mt-4">
@@ -189,7 +166,7 @@ const Register = () => {
                             className="form-control"
                             placeholder="Enter business"
                             onChange={(e) => setBusinessName(e.target.value)}
-                            value={businessName}
+                            value={business}
                           />
                         </div>
                         <div className="mb-3">

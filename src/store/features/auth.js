@@ -5,7 +5,12 @@ const baseUrl = 'https://api.gapfinance.ng';
 
 const getUserFromStorage = () => {
   const user = localStorage.getItem('user');
-  const result = user ? user : {};
+  const result = user ? JSON.parse(user) : {};
+  return result;
+};
+const getTokenFromStorage = () => {
+  const token = localStorage.getItem('gapToken');
+  const result = token ? token : {};
   return result;
 };
 
@@ -13,9 +18,11 @@ const initialState = {
   loading: false,
   error: false,
   errorMsg: '',
+  confirmPass: false,
   isActivated: false,
-  user: getUserFromStorage(),
   success: false,
+  user: getUserFromStorage(),
+  token: getTokenFromStorage(),
 };
 
 export const registerUser = createAsyncThunk(
@@ -107,9 +114,13 @@ export const setPassword = createAsyncThunk(
   'account/setPassword',
   async (details, thunkAPI) => {
     try {
-      const response = await axios.post(`${baseUrl}/auth/login`, details, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
+      const response = await axios.post(
+        `${baseUrl}/auth/set-password`,
+        details,
+        {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        }
+      );
       return response.data;
     } catch (error) {
       console.log(error);
@@ -204,6 +215,19 @@ const accountSlice = createSlice({
       state.user = payload;
     },
     [loginUser.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = true;
+      state.errorMsg = payload;
+    },
+    [setPassword.pending]: (state) => {
+      state.loading = true;
+    },
+    [setPassword.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.confirmPass = true;
+      state.token = localStorage.setItem('gapToken', payload.token);
+    },
+    [setPassword.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = true;
       state.errorMsg = payload;

@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Card, CardBody, Col, Container, Row } from "reactstrap";
-import { categories } from "../../common/data/jobLanding";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { categories } from '../../common/data/jobLanding';
 
 const Career = () => {
   return (
@@ -9,10 +9,10 @@ const Career = () => {
       <section className="section bg-light" id="careers">
         <Container>
           <Row className="justify-content-center">
-            <Col lg={7} >
+            <Col lg={7}>
               <div className="text-center mb-5">
                 <h1 className="mb-3 ff-secondary fw-bold text-capitalize lh-base">
-                  High demand jobs{" "}
+                  High demand jobs{' '}
                   <span className="text-primary">Categories</span> fratured
                 </h1>
                 <p className="text-muted">

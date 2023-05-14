@@ -42,7 +42,7 @@ const BasicTwosVerify = () => {
 
   useEffect(() => {
     if (isActivated) {
-      setTimeout(() => history('/dashboard'), 3000);
+      history('/auth-twostep-cover');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActivated]);
@@ -88,7 +88,7 @@ const BasicTwosVerify = () => {
                       </Link>
                     </div>
                     <p className="mt-3 fs-15 fw-medium">
-                      Premium Admin & Dashboard Template
+                      GAP Finance, the best experience
                     </p>
                   </div>
                 </Col>
@@ -111,7 +111,7 @@ const BasicTwosVerify = () => {
                           <h4 className="">Verify Your Email</h4>
                           <p>
                             Please enter the 6 digit code sent to{' '}
-                            <span className="fw-semibold">example@abc.com</span>
+                            <span className="fw-semibold">{user.email}</span>
                           </p>
                         </div>
 
@@ -123,7 +123,7 @@ const BasicTwosVerify = () => {
                                   htmlFor="digit1-input"
                                   className="visually-hidden"
                                 >
-                                  Digit 1
+                                  OTP
                                 </label>
                                 <Input
                                   type="text"

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import LogoLight from '../../assets/images/gapfinance-whitelogo.png';
 
+import './Home.css';
 const Footer = () => {
   return (
     <React.Fragment>

@@ -93,7 +93,7 @@ const Home = () => {
             </p>
 
             <Form onSubmit={onFormSubmit} className="job-panel-filter">
-              <Row className="g-md-0 g-2">
+              <Row xs="2">
                 <Col className="col-md-4">
                   <div>
                     <Input
