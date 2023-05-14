@@ -25,7 +25,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, success, error } = useSelector((state) => state.account);
+  const { loading, isLoggedIn, error } = useSelector((state) => state.account);
   const onFormSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -35,14 +35,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (success) {
-      setTimeout(() => navigate('/dashboard'), 3000);
+    if (isLoggedIn) {
+      setTimeout(() => navigate('/dashboard'));
     }
-
-    // setTimeout(() => {
-    //   dispatch(resetRegisterFlag());
-    // }, 3000);
-  }, [dispatch, success, error, navigate]);
+  }, [dispatch, isLoggedIn, error, navigate]);
   return (
     <React.Fragment>
       <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">

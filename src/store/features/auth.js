@@ -21,6 +21,7 @@ const initialState = {
   confirmPass: false,
   isActivated: false,
   success: false,
+  isLoggedIn: false,
   user: getUserFromStorage(),
   token: getTokenFromStorage(),
 };
@@ -87,6 +88,7 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post(`${baseUrl}/auth/login`, details, {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -211,8 +213,9 @@ const accountSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.success = true;
+      state.isLoggedIn = true;
       state.user = payload;
+      localStorage.setItem('user', JSON.stringify(payload));
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.loading = false;
