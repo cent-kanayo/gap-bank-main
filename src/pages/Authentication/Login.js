@@ -26,7 +26,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, isLoggedIn, error } = useSelector((state) => state.account);
+  const { loading, isLoggedIn, error } = useSelector((state) => state.auth);
   const onFormSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) {
