@@ -13,7 +13,7 @@ import AuthSlider from '../authCarousel';
 import '../../Landing/Home.css';
 
 const CoverTwosVerify = () => {
-  document.title = 'Set password | Gap Finance';
+  document.title = 'Set password | GapFinance';
 
   const [password, setUserPassword] = useState('');
 

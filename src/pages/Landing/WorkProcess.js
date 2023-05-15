@@ -16,11 +16,11 @@ const WorkProcess = () => {
                 <h3 className="mb-3 fw-bold text-primary how-it">
                   How it works
                 </h3>
-                <p className="mb-4 ff-secondary para">
+                {/* <p className="mb-4 ff-secondary para">
                   In an ideal world this website wouldn’t exist, a client would
                   acknowledge the importance of having web copy before the Proin
                   vitae ipsum vel ex finibus semper design starts.
-                </p>
+                </p> */}
               </div>
             </Col>
           </Row>

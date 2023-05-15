@@ -93,7 +93,7 @@ const Register = () => {
     // }, 3000);
   }, [dispatch, success, error, history]);
 
-  document.title = 'SignUp on Gap Finance';
+  document.title = 'SignUp on GapFinance';
 
   return (
     <React.Fragment>
@@ -123,7 +123,7 @@ const Register = () => {
                     <div className="text-center mt-2">
                       <h5 className="text-primary">Create New Account</h5>
                       <p className="text-muted">
-                        Get your free GAP Finance account now
+                        Get your free GapFinance account now
                       </p>
                     </div>
                     <div className="p-2 mt-4">
@@ -156,22 +156,24 @@ const Register = () => {
                             </div>
                           </Alert>
                         ) : null}
-                        <div className="mb-3">
-                          <Label htmlFor="useremail" className="form-label">
-                            Business Name{' '}
-                            {accountType === 'Business' && (
-                              <span className="text-danger">*</span>
-                            )}
-                          </Label>
-                          <Input
-                            id="businessName"
-                            name="businessName"
-                            className="form-control"
-                            placeholder="Enter business"
-                            onChange={(e) => setBusinessName(e.target.value)}
-                            value={business}
-                          />
-                        </div>
+                        {isBusiness && (
+                          <div className="mb-3">
+                            <Label htmlFor="useremail" className="form-label">
+                              Business Name{' '}
+                              {accountType === 'Business' && (
+                                <span className="text-danger">*</span>
+                              )}
+                            </Label>
+                            <Input
+                              id="businessName"
+                              name="businessName"
+                              className="form-control"
+                              placeholder="Enter business"
+                              onChange={(e) => setBusinessName(e.target.value)}
+                              value={business}
+                            />
+                          </div>
+                        )}
                         <div className="mb-3">
                           <Label htmlFor="useremail" className="form-label">
                             Account Category{' '}
@@ -232,7 +234,7 @@ const Register = () => {
 
                         <div className="mb-4">
                           <p className="mb-0 fs-12 text-muted fst-italic">
-                            By registering you agree to the Velzon
+                            By registering you agree to the GapFinance{' '}
                             <Link
                               to="#"
                               className="text-primary text-decoration-underline fst-normal fw-medium"

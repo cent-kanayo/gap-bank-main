@@ -4,6 +4,8 @@
 
 .auth-page-wrapper {
   margin-top: 100px;
+  width: 100%;
+  overflow-x: hidden;
   @media (min-width: 768px) {
     margin-top: 0;
   }

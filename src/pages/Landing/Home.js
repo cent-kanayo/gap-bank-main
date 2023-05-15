@@ -86,10 +86,10 @@ const Home = () => {
 
             {/* text-muted */}
             <p className="lead lh-base mb-4">
-              Gapbank is reliable, the ultimate goal of Gapbank is to create a
-              system that brings happiness to every customer, this is more than
-              just a bank, this is he bridge giving hope to entrepreneurs and
-              supporting the youths.
+              GapFinance is reliable, the ultimate goal of GapFinance is to
+              create a system that brings happiness to every customer, this is
+              more than just a bank, this is he bridge giving hope to
+              entrepreneurs and supporting the youths.
             </p>
 
             <Form onSubmit={onFormSubmit} className="job-panel-filter">

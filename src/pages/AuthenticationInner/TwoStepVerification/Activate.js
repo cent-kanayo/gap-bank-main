@@ -90,7 +90,7 @@ const BasicTwosVerify = () => {
                       </Link>
                     </div>
                     <p className="mt-3 fs-15 fw-medium">
-                      GAP Finance, the best experience
+                      GapFinance, the best experience
                     </p>
                   </div>
                 </Col>

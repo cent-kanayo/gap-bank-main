@@ -19,7 +19,7 @@ import { loginUser } from '../../store/features/auth';
 import Navbar from '../Landing/Navbar';
 
 const Login = () => {
-  document.title = 'GAP Bank | Signin';
+  document.title = 'GapFinance | Signin';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -56,7 +56,7 @@ const Login = () => {
                         <Card className="card-animate card-bg-fill p-0 rounded shadow-lg inquiry-box">
                           <CardBody>
                             <div className="d-flex align-items-center">
-                              <p className="m-0 ml-3">Outward Transfer</p>{' '}
+                              <p className="m-0 ml-3">Outward Transfer</p>
                               <i className="ri-arrow-right-up-line fs-16 text-secondary"></i>
                             </div>
                             <div className="d-flex align-items-end justify-content-between my-2">
@@ -92,13 +92,13 @@ const Login = () => {
                       <Card className="px-4 py-5">
                         <div>
                           <h5 className="text-primary fw-bold">
-                            Sign in to Gap Finance
+                            Sign in to GapFinance
                           </h5>
                         </div>
 
                         <div className="mt-4">
                           <p className="mb-0 fw-medium fs-16">
-                            New to Gap Bank?{' '}
+                            New to GapFinance?
                             <Link
                               to="/register"
                               className="fw-semibold text-primary text-decoration-underline"

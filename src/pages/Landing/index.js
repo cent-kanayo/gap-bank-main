@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 // import { loginUser } from "../../store/actions";
 
 const Landing = (props) => {
-  document.title = 'GAP Bank';
+  document.title = 'GapFinance';
 
   window.onscroll = function () {
     scrollFunction();
