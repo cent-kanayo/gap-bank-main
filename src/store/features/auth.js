@@ -10,7 +10,7 @@ const getUserFromStorage = () => {
 };
 const getTokenFromStorage = () => {
   const token = localStorage.getItem('gapToken');
-  const result = token ? token : {};
+  const result = token ? token : '';
   return result;
 };
 
@@ -31,14 +31,12 @@ export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async (user, thunkAPI) => {
     try {
-      const response = await axios.post(`${baseUrl}/auth/register`, user, {
+      const { data } = await axios.post(`${baseUrl}/auth/register`, user, {
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
       });
-      console.log(response.data);
-      return response.data;
+      return data;
     } catch (error) {
-      console.log(error);
-      thunkAPI.rejectWithValue(error.response.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -49,12 +47,14 @@ export const activate = createAsyncThunk(
     try {
       const response = await axios.post(
         `${baseUrl}/auth/activate-account`,
-        details
+        details,
+        {
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        }
       );
       return response.data;
     } catch (error) {
-      console.log(error);
-      thunkAPI.rejectWithValue(error.response.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -62,11 +62,13 @@ export const authorize = createAsyncThunk(
   'auth/authorize',
   async (details, thunkAPI) => {
     try {
-      const response = await axios.post(`${baseUrl}/auth/authorize`, details);
+      const response = await axios.post(`${baseUrl}/auth/authorize`, details, {
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      });
       return response.data;
     } catch (error) {
       console.log(error);
-      thunkAPI.rejectWithValue(error.response.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -81,7 +83,7 @@ export const loginUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error);
-      thunkAPI.rejectWithValue(error.response.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -96,7 +98,7 @@ export const forgotPassword = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error);
-      thunkAPI.rejectWithValue(error.response.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -112,10 +114,11 @@ export const setPassword = createAsyncThunk(
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         }
       );
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
-      thunkAPI.rejectWithValue(error.response.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -133,7 +136,7 @@ export const getAuthUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error);
-      thunkAPI.rejectWithValue(error.response.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -145,7 +148,7 @@ export const checkToken = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error);
-      thunkAPI.rejectWithValue(error.response.message);
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -161,14 +164,14 @@ const authSlice = createSlice({
     [registerUser.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.success = true;
-      state.user = payload;
-      localStorage.setItem('user', JSON.stringify(payload));
+      state.user = payload.data;
+      localStorage.setItem('user', JSON.stringify(payload.data));
     },
     [registerUser.rejected]: (state, { payload }) => {
-      state.loading = true;
+      state.loading = false;
       state.error = true;
       state.success = false;
-      state.errorMsg = payload;
+      state.errorMsg = payload.toString();
     },
     [activate.pending]: (state) => {
       state.loading = true;
@@ -176,6 +179,8 @@ const authSlice = createSlice({
     [activate.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isActivated = true;
+      state.user = payload.data;
+      localStorage.setItem('user', JSON.stringify(payload.data));
     },
     [activate.rejected]: (state, { payload }) => {
       state.loading = true;
@@ -189,7 +194,9 @@ const authSlice = createSlice({
     [authorize.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isAuthorized = true;
-      state.user = payload;
+      state.user = payload.data.user;
+      localStorage.setItem('user', JSON.stringify(payload.data.user));
+      state.token = localStorage.setItem('gapToken', payload.data.token);
     },
     [authorize.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -202,8 +209,6 @@ const authSlice = createSlice({
     [loginUser.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isLoggedIn = true;
-      state.user = payload;
-      localStorage.setItem('user', JSON.stringify(payload));
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -216,7 +221,9 @@ const authSlice = createSlice({
     [setPassword.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.confirmPass = true;
-      state.token = localStorage.setItem('gapToken', payload.token);
+      state.user = payload.data.user;
+      localStorage.setItem('user', JSON.stringify(payload.data.user));
+      state.token = localStorage.setItem('gapToken', payload.data.token);
     },
     [setPassword.rejected]: (state, { payload }) => {
       state.loading = false;

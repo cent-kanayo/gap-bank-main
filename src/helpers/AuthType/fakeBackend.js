@@ -1,7 +1,7 @@
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
-import * as url from "../url_helper";
-import { accessToken, nodeApiToken } from "../jwt-token-access/accessToken";
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import * as url from '../url_helper';
+import { accessToken, nodeApiToken } from '../jwt-token-access/accessToken';
 
 import {
   calenderDefaultCategories,
@@ -73,25 +73,25 @@ import {
   recentFile,
   todoTaskList,
   todoCollapse,
-  apiKey
-} from "../../common/data";
+  apiKey,
+} from '../../common/data';
 
 let users = [
   {
     uid: 1,
-    username: "admin",
-    role: "admin",
-    password: "123456",
-    email: "admin@themesbrand.com",
+    username: 'admin',
+    role: 'admin',
+    password: '123456',
+    email: 'admin@themesbrand.com',
   },
 ];
 
 const fakeBackend = () => {
   // This sets the mock adapter on the default instance
-  const mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
+  const mock = new MockAdapter(axios, { onNoMatch: 'passthrough' });
 
-  mock.onPost("/post-jwt-register").reply(config => {
-    const user = JSON.parse(config["data"]);
+  mock.onPost('/post-jwt-register').reply((config) => {
+    const user = JSON.parse(config['data']);
     users.push(user);
 
     return new Promise((resolve, reject) => {
@@ -101,15 +101,15 @@ const fakeBackend = () => {
     });
   });
 
-  mock.onPost("/post-jwt-login").reply(config => {
-    const user = JSON.parse(config["data"]);
+  mock.onPost('/post-jwt-login').reply((config) => {
+    const user = JSON.parse(config['data']);
     const validUser = users.filter(
-      usr => usr.email === user.email && usr.password === user.password
+      (usr) => usr.email === user.email && usr.password === user.password
     );
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (validUser["length"] === 1) {
+        if (validUser['length'] === 1) {
           // You have to generate AccessToken by jwt. but this is fakeBackend so, right now its dummy
           const token = accessToken;
 
@@ -121,70 +121,72 @@ const fakeBackend = () => {
         } else {
           reject([
             400,
-            "Username and password are invalid. Please enter correct username and password",
+            'Username and password are invalid. Please enter correct username and password',
           ]);
         }
       });
     });
   });
 
-  mock.onPost("/post-jwt-profile").reply(config => {
-    const user = JSON.parse(config["data"]);
+  mock.onPost('/post-jwt-profile').reply((config) => {
+    const user = JSON.parse(config['data']);
 
     const one = config.headers;
 
     let finalToken = one.Authorization;
 
-    const validUser = users.filter(usr => usr.uid === user.idx);
+    const validUser = users.filter((usr) => usr.uid === user.idx);
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         // Verify Jwt token from header.Authorization
         if (finalToken === accessToken) {
-          if (validUser["length"] === 1) {
+          if (validUser['length'] === 1) {
             let objIndex;
 
             //Find index of specific object using findIndex method.
-            objIndex = users.findIndex(obj => obj.uid === user.idx);
+            objIndex = users.findIndex((obj) => obj.uid === user.idx);
 
             //Update object's name property.
             users[objIndex].username = user.username;
 
             // Assign a value to locastorage
-            sessionStorage.removeItem("authUser");
-            sessionStorage.setItem("authUser", JSON.stringify(users[objIndex]));
+            sessionStorage.removeItem('authUser');
+            sessionStorage.setItem('authUser', JSON.stringify(users[objIndex]));
 
-            resolve([200, "Profile Updated Successfully"]);
+            resolve([200, 'Profile Updated Successfully']);
           } else {
-            reject([400, "Something wrong for edit profile"]);
+            reject([400, 'Something wrong for edit profile']);
           }
         } else {
-          reject([400, "Invalid Token !!"]);
+          reject([400, 'Invalid Token !!']);
         }
       });
     });
   });
 
-  mock.onPost("/social-login").reply(config => {
-    const user = JSON.parse(config["data"]);
+  mock.onPost('/social-login').reply((config) => {
+    const user = JSON.parse(config['data']);
     return new Promise((resolve, reject) => {
-
       setTimeout(() => {
         if (user && user.token) {
           // You have to generate AccessToken by jwt. but this is fakeBackend so, right now its dummy
           const token = accessToken;
-          const first_name = user.name
-          const nodeapiToken = nodeApiToken
-          delete user.name
+          const first_name = user.name;
+          const nodeapiToken = nodeApiToken;
+          delete user.name;
 
           // JWT AccessToken
           const tokenObj = { accessToken: token, first_name: first_name }; // Token Obj
-          const validUserObj = { token: nodeapiToken, "data": { ...tokenObj, ...user } }; // validUser Obj
+          const validUserObj = {
+            token: nodeapiToken,
+            data: { ...tokenObj, ...user },
+          }; // validUser Obj
           resolve([200, validUserObj]);
         } else {
           reject([
             400,
-            "Username and password are invalid. Please enter correct username and password",
+            'Username and password are invalid. Please enter correct username and password',
           ]);
         }
       });
@@ -200,7 +202,7 @@ const fakeBackend = () => {
           const data = [...events, ...defaultevent];
           resolve([200, data]);
         } else {
-          reject([400, "Cannot get events"]);
+          reject([400, 'Cannot get events']);
         }
       });
     });
@@ -213,7 +215,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, calenderDefaultCategories]);
         } else {
-          reject([400, "Cannot get categories"]);
+          reject([400, 'Cannot get categories']);
         }
       });
     });
@@ -226,7 +228,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, defaultevent]);
         } else {
-          reject([400, "Cannot get upcomming events"]);
+          reject([400, 'Cannot get upcomming events']);
         }
       });
     });
@@ -239,7 +241,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, event.data]);
         } else {
-          reject([400, "Cannot add event"]);
+          reject([400, 'Cannot add event']);
         }
       });
     });
@@ -252,7 +254,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, event.data]);
         } else {
-          reject([400, "Cannot update event"]);
+          reject([400, 'Cannot update event']);
         }
       });
     });
@@ -265,7 +267,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, config.headers.event]);
         } else {
-          reject([400, "Cannot delete event"]);
+          reject([400, 'Cannot delete event']);
         }
       });
     });
@@ -279,51 +281,51 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, direactContact]);
         } else {
-          reject([400, "Cannot get direct contact"]);
+          reject([400, 'Cannot get direct contact']);
         }
       });
     });
   });
 
-  mock.onGet(new RegExp(`${url.GET_MESSAGES}/*`)).reply(config => {
+  mock.onGet(new RegExp(`${url.GET_MESSAGES}/*`)).reply((config) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (messages) {
           // Passing fake JSON data as response
           const { params } = config;
           const filteredMessages = messages.filter(
-            msg => msg.roomId === params.roomId
+            (msg) => msg.roomId === params.roomId
           );
 
           resolve([200, filteredMessages]);
         } else {
-          reject([400, "Cannot get messages"]);
+          reject([400, 'Cannot get messages']);
         }
       });
     });
   });
 
-  mock.onPost(url.ADD_MESSAGE).reply(config => {
+  mock.onPost(url.ADD_MESSAGE).reply((config) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config.data) {
           // Passing fake JSON data as response
           resolve([200, config.data]);
         } else {
-          reject([400, "Cannot add message"]);
+          reject([400, 'Cannot add message']);
         }
       });
     });
   });
 
-  mock.onDelete(url.DELETE_MESSAGE).reply(config => {
+  mock.onDelete(url.DELETE_MESSAGE).reply((config) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config && config.headers) {
           // Passing fake JSON data as response
           resolve([200, config.headers.message]);
         } else {
-          reject([400, "Cannot delete message"]);
+          reject([400, 'Cannot delete message']);
         }
       });
     });
@@ -336,7 +338,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, channelsList]);
         } else {
-          reject([400, "Cannot get Channels"]);
+          reject([400, 'Cannot get Channels']);
         }
       });
     });
@@ -350,7 +352,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, projectList]);
         } else {
-          reject([400, "Cannot get project list data"]);
+          reject([400, 'Cannot get project list data']);
         }
       });
     });
@@ -364,20 +366,20 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, mailbox]);
         } else {
-          reject([400, "Cannot get mail details"]);
+          reject([400, 'Cannot get mail details']);
         }
       });
     });
   });
 
-  mock.onDelete(url.DELETE_MAIL).reply(config => {
+  mock.onDelete(url.DELETE_MAIL).reply((config) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config && config.headers) {
           // Passing fake JSON data as response
           resolve([200, config.headers.forId]);
         } else {
-          reject([400, "Cannot delete order"]);
+          reject([400, 'Cannot delete order']);
         }
       });
     });
@@ -391,7 +393,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, sellersList]);
         } else {
-          reject([400, "Cannot get sellers"]);
+          reject([400, 'Cannot get sellers']);
         }
       });
     });
@@ -405,7 +407,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, transactions]);
         } else {
-          reject([400, "Cannot get Transactions Data"]);
+          reject([400, 'Cannot get Transactions Data']);
         }
       });
     });
@@ -419,7 +421,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, CryptoOrders]);
         } else {
-          reject([400, "Cannot get Order Data"]);
+          reject([400, 'Cannot get Order Data']);
         }
       });
     });
@@ -433,7 +435,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, deals]);
         } else {
-          reject([400, "Cannot get Deals"]);
+          reject([400, 'Cannot get Deals']);
         }
       });
     });
@@ -449,7 +451,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, allData]);
         } else {
-          reject([400, "Cannot get All Chart Data"]);
+          reject([400, 'Cannot get All Chart Data']);
         }
       });
     });
@@ -462,7 +464,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, monthData]);
         } else {
-          reject([400, "Cannot get Monthly Chart Data"]);
+          reject([400, 'Cannot get Monthly Chart Data']);
         }
       });
     });
@@ -475,7 +477,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, halfyearData]);
         } else {
-          reject([400, "Cannot get Half Yealy Chart Data"]);
+          reject([400, 'Cannot get Half Yealy Chart Data']);
         }
       });
     });
@@ -489,7 +491,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, allaudiencesMetricsData]);
         } else {
-          reject([400, "Cannot get All Chart Data"]);
+          reject([400, 'Cannot get All Chart Data']);
         }
       });
     });
@@ -502,7 +504,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, monthaudiencesMetricsData]);
         } else {
-          reject([400, "Cannot get Monthly Chart Data"]);
+          reject([400, 'Cannot get Monthly Chart Data']);
         }
       });
     });
@@ -515,7 +517,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, halfyearaudiencesMetricsData]);
         } else {
-          reject([400, "Cannot get Half Yealy Chart Data"]);
+          reject([400, 'Cannot get Half Yealy Chart Data']);
         }
       });
     });
@@ -528,7 +530,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, yaeraudiencesMetricsData]);
         } else {
-          reject([400, "Cannot get Yealy Chart Data"]);
+          reject([400, 'Cannot get Yealy Chart Data']);
         }
       });
     });
@@ -542,7 +544,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, todayDeviceData]);
         } else {
-          reject([400, "Cannot get Today Chart Data"]);
+          reject([400, 'Cannot get Today Chart Data']);
         }
       });
     });
@@ -555,7 +557,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, lastWeekDeviceData]);
         } else {
-          reject([400, "Cannot get Last Weekly Chart Data"]);
+          reject([400, 'Cannot get Last Weekly Chart Data']);
         }
       });
     });
@@ -568,7 +570,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, lastMonthDeviceData]);
         } else {
-          reject([400, "Cannot get Last Montly Chart Data"]);
+          reject([400, 'Cannot get Last Montly Chart Data']);
         }
       });
     });
@@ -581,7 +583,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, currentYearDeviceData]);
         } else {
-          reject([400, "Cannot get Current Yealy Chart Data"]);
+          reject([400, 'Cannot get Current Yealy Chart Data']);
         }
       });
     });
@@ -596,7 +598,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, todayaudiencesCountryData]);
         } else {
-          reject([400, "Cannot get Today Chart Data"]);
+          reject([400, 'Cannot get Today Chart Data']);
         }
       });
     });
@@ -609,7 +611,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, lastWeekaudiencesCountryData]);
         } else {
-          reject([400, "Cannot get Last Weekly Chart Data"]);
+          reject([400, 'Cannot get Last Weekly Chart Data']);
         }
       });
     });
@@ -622,7 +624,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, lastMonthaudiencesCountryData]);
         } else {
-          reject([400, "Cannot get Last Montly Chart Data"]);
+          reject([400, 'Cannot get Last Montly Chart Data']);
         }
       });
     });
@@ -635,7 +637,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, currentyearaudiencesCountryData]);
         } else {
-          reject([400, "Cannot get Current Yealy Chart Data"]);
+          reject([400, 'Cannot get Current Yealy Chart Data']);
         }
       });
     });
@@ -651,7 +653,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, todayBalanceData]);
         } else {
-          reject([400, "Cannot get Today Chart Data"]);
+          reject([400, 'Cannot get Today Chart Data']);
         }
       });
     });
@@ -664,7 +666,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, lastWeekBalanceData]);
         } else {
-          reject([400, "Cannot get Last Weekly Chart Data"]);
+          reject([400, 'Cannot get Last Weekly Chart Data']);
         }
       });
     });
@@ -677,7 +679,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, lastMonthBalanceData]);
         } else {
-          reject([400, "Cannot get Last Montly Chart Data"]);
+          reject([400, 'Cannot get Last Montly Chart Data']);
         }
       });
     });
@@ -690,7 +692,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, currentYearBalanceData]);
         } else {
-          reject([400, "Cannot get Current Yealy Chart Data"]);
+          reject([400, 'Cannot get Current Yealy Chart Data']);
         }
       });
     });
@@ -704,7 +706,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, todayDealData]);
         } else {
-          reject([400, "Cannot get Today Chart Data"]);
+          reject([400, 'Cannot get Today Chart Data']);
         }
       });
     });
@@ -717,7 +719,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, weeklyDealData]);
         } else {
-          reject([400, "Cannot get Weekly Chart Data"]);
+          reject([400, 'Cannot get Weekly Chart Data']);
         }
       });
     });
@@ -730,7 +732,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, monthlyDealData]);
         } else {
-          reject([400, "Cannot get Montly Chart Data"]);
+          reject([400, 'Cannot get Montly Chart Data']);
         }
       });
     });
@@ -743,7 +745,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, yealyDealData]);
         } else {
-          reject([400, "Cannot get Yealy Chart Data"]);
+          reject([400, 'Cannot get Yealy Chart Data']);
         }
       });
     });
@@ -757,7 +759,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, octData]);
         } else {
-          reject([400, "Cannot get October Chart Data"]);
+          reject([400, 'Cannot get October Chart Data']);
         }
       });
     });
@@ -770,7 +772,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, novData]);
         } else {
-          reject([400, "Cannot get November Chart Data"]);
+          reject([400, 'Cannot get November Chart Data']);
         }
       });
     });
@@ -783,7 +785,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, decData]);
         } else {
-          reject([400, "Cannot get December Chart Data"]);
+          reject([400, 'Cannot get December Chart Data']);
         }
       });
     });
@@ -796,7 +798,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, janData]);
         } else {
-          reject([400, "Cannot get January Chart Data"]);
+          reject([400, 'Cannot get January Chart Data']);
         }
       });
     });
@@ -811,7 +813,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, allRevenueData]);
         } else {
-          reject([400, "Cannot get All Revenue Data"]);
+          reject([400, 'Cannot get All Revenue Data']);
         }
       });
     });
@@ -824,7 +826,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, monthRevenueData]);
         } else {
-          reject([400, "Cannot get Month Revenue Data"]);
+          reject([400, 'Cannot get Month Revenue Data']);
         }
       });
     });
@@ -837,7 +839,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, halfYearRevenueData]);
         } else {
-          reject([400, "Cannot get Half Year Revenue Data"]);
+          reject([400, 'Cannot get Half Year Revenue Data']);
         }
       });
     });
@@ -850,7 +852,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, yearRevenueData]);
         } else {
-          reject([400, "Cannot get Year Revenue Data"]);
+          reject([400, 'Cannot get Year Revenue Data']);
         }
       });
     });
@@ -865,7 +867,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, btcPortfolioData]);
         } else {
-          reject([400, "Cannot get BTC Data"]);
+          reject([400, 'Cannot get BTC Data']);
         }
       });
     });
@@ -878,7 +880,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, usdPortfolioData]);
         } else {
-          reject([400, "Cannot get USD Data"]);
+          reject([400, 'Cannot get USD Data']);
         }
       });
     });
@@ -891,7 +893,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, euroPortfolioData]);
         } else {
-          reject([400, "Cannot get EURO Data"]);
+          reject([400, 'Cannot get EURO Data']);
         }
       });
     });
@@ -905,7 +907,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, MarketGraphAll]);
         } else {
-          reject([400, "Cannot get All Market Data"]);
+          reject([400, 'Cannot get All Market Data']);
         }
       });
     });
@@ -918,7 +920,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, MarketGraphYear]);
         } else {
-          reject([400, "Cannot get Year Market Data"]);
+          reject([400, 'Cannot get Year Market Data']);
         }
       });
     });
@@ -931,7 +933,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, MarketGraphMonth]);
         } else {
-          reject([400, "Cannot get Month Market Data"]);
+          reject([400, 'Cannot get Month Market Data']);
         }
       });
     });
@@ -944,7 +946,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, MarketGraphWeek]);
         } else {
-          reject([400, "Cannot get Week Market Data"]);
+          reject([400, 'Cannot get Week Market Data']);
         }
       });
     });
@@ -957,7 +959,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, MarketGraphHour]);
         } else {
-          reject([400, "Cannot get Hour Market Data"]);
+          reject([400, 'Cannot get Hour Market Data']);
         }
       });
     });
@@ -972,7 +974,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, allProjectData]);
         } else {
-          reject([400, "Cannot get All Chart Data"]);
+          reject([400, 'Cannot get All Chart Data']);
         }
       });
     });
@@ -985,7 +987,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, monthProjectData]);
         } else {
-          reject([400, "Cannot get Month Chart Data"]);
+          reject([400, 'Cannot get Month Chart Data']);
         }
       });
     });
@@ -998,7 +1000,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, halfyearProjectData]);
         } else {
-          reject([400, "Cannot get Half Year Chart Data"]);
+          reject([400, 'Cannot get Half Year Chart Data']);
         }
       });
     });
@@ -1011,7 +1013,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, yearProjectData]);
         } else {
-          reject([400, "Cannot get Year Chart Data"]);
+          reject([400, 'Cannot get Year Chart Data']);
         }
       });
     });
@@ -1025,7 +1027,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, allTimeData]);
         } else {
-          reject([400, "Cannot get All Chart Data"]);
+          reject([400, 'Cannot get All Chart Data']);
         }
       });
     });
@@ -1038,7 +1040,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, lastWeekData]);
         } else {
-          reject([400, "Cannot get Last Week Chart Data"]);
+          reject([400, 'Cannot get Last Week Chart Data']);
         }
       });
     });
@@ -1051,7 +1053,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, lastMonthData]);
         } else {
-          reject([400, "Cannot get Last Month Chart Data"]);
+          reject([400, 'Cannot get Last Month Chart Data']);
         }
       });
     });
@@ -1064,7 +1066,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, lastquarterData]);
         } else {
-          reject([400, "Cannot get Last Quarter Chart Data"]);
+          reject([400, 'Cannot get Last Quarter Chart Data']);
         }
       });
     });
@@ -1079,7 +1081,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, allMarketplaceData]);
         } else {
-          reject([400, "Cannot get All Chart Data"]);
+          reject([400, 'Cannot get All Chart Data']);
         }
       });
     });
@@ -1092,7 +1094,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, monthMarketplaceData]);
         } else {
-          reject([400, "Cannot get Month Chart Data"]);
+          reject([400, 'Cannot get Month Chart Data']);
         }
       });
     });
@@ -1105,7 +1107,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, halfyearMarketplaceData]);
         } else {
-          reject([400, "Cannot get Half Year Chart Data"]);
+          reject([400, 'Cannot get Half Year Chart Data']);
         }
       });
     });
@@ -1118,7 +1120,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, yearMarketplaceData]);
         } else {
-          reject([400, "Cannot get Year Chart Data"]);
+          reject([400, 'Cannot get Year Chart Data']);
         }
       });
     });
@@ -1131,7 +1133,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, project.data]);
         } else {
-          reject([400, "Cannot add project"]);
+          reject([400, 'Cannot add project']);
         }
       });
     });
@@ -1144,7 +1146,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, project.data]);
         } else {
-          reject([400, "Cannot update project"]);
+          reject([400, 'Cannot update project']);
         }
       });
     });
@@ -1157,7 +1159,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, config.headers.project]);
         } else {
-          reject([400, "Cannot delete event"]);
+          reject([400, 'Cannot delete event']);
         }
       });
     });
@@ -1170,7 +1172,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, team]);
         } else {
-          reject([400, "Cannot get team data"]);
+          reject([400, 'Cannot get team data']);
         }
       });
     });
@@ -1183,7 +1185,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, config.headers.team]);
         } else {
-          reject([400, "Cannot delete team data"]);
+          reject([400, 'Cannot delete team data']);
         }
       });
     });
@@ -1196,7 +1198,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, team.data]);
         } else {
-          reject([400, "Cannot add team data"]);
+          reject([400, 'Cannot add team data']);
         }
       });
     });
@@ -1209,7 +1211,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, team.data]);
         } else {
-          reject([400, "Cannot update team data"]);
+          reject([400, 'Cannot update team data']);
         }
       });
     });
@@ -1224,7 +1226,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, folderList]);
         } else {
-          reject([400, "Cannot get folder data"]);
+          reject([400, 'Cannot get folder data']);
         }
       });
     });
@@ -1237,7 +1239,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, config.headers.folder]);
         } else {
-          reject([400, "Cannot delete folder data"]);
+          reject([400, 'Cannot delete folder data']);
         }
       });
     });
@@ -1250,7 +1252,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, folder.data]);
         } else {
-          reject([400, "Cannot add folder data"]);
+          reject([400, 'Cannot add folder data']);
         }
       });
     });
@@ -1263,7 +1265,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, folder.data]);
         } else {
-          reject([400, "Cannot update folder data"]);
+          reject([400, 'Cannot update folder data']);
         }
       });
     });
@@ -1277,7 +1279,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, recentFile]);
         } else {
-          reject([400, "Cannot get file data"]);
+          reject([400, 'Cannot get file data']);
         }
       });
     });
@@ -1290,7 +1292,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, config.headers.file]);
         } else {
-          reject([400, "Cannot delete file data"]);
+          reject([400, 'Cannot delete file data']);
         }
       });
     });
@@ -1303,7 +1305,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, file.data]);
         } else {
-          reject([400, "Cannot add file data"]);
+          reject([400, 'Cannot add file data']);
         }
       });
     });
@@ -1316,7 +1318,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, file.data]);
         } else {
-          reject([400, "Cannot update file data"]);
+          reject([400, 'Cannot update file data']);
         }
       });
     });
@@ -1330,7 +1332,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, todoTaskList]);
         } else {
-          reject([400, "Cannot get To do data"]);
+          reject([400, 'Cannot get To do data']);
         }
       });
     });
@@ -1343,7 +1345,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, config.headers.todo]);
         } else {
-          reject([400, "Cannot delete To do data"]);
+          reject([400, 'Cannot delete To do data']);
         }
       });
     });
@@ -1356,7 +1358,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, todo.data]);
         } else {
-          reject([400, "Cannot add To do data"]);
+          reject([400, 'Cannot add To do data']);
         }
       });
     });
@@ -1369,7 +1371,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, todo.data]);
         } else {
-          reject([400, "Cannot update To do data"]);
+          reject([400, 'Cannot update To do data']);
         }
       });
     });
@@ -1382,7 +1384,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, todoCollapse]);
         } else {
-          reject([400, "Cannot get Project data"]);
+          reject([400, 'Cannot get Project data']);
         }
       });
     });
@@ -1395,7 +1397,7 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, project.data]);
         } else {
-          reject([400, "Cannot add Project data"]);
+          reject([400, 'Cannot add Project data']);
         }
       });
     });
@@ -1409,26 +1411,25 @@ const fakeBackend = () => {
           // Passing fake JSON data as response
           resolve([200, jobApplication]);
         } else {
-          reject([400, "Cannot get Application Data"]);
+          reject([400, 'Cannot get Application Data']);
         }
       });
     });
   });
 
-   //API Key
-   mock.onGet(url.GET_API_KEY).reply(() => {
+  //API Key
+  mock.onGet(url.GET_API_KEY).reply(() => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (apiKey) {
           // Passing fake JSON data as response
           resolve([200, apiKey]);
         } else {
-          reject([400, "Cannot get API Key Data"]);
+          reject([400, 'Cannot get API Key Data']);
         }
       });
     });
   });
-
 };
 
 export default fakeBackend;

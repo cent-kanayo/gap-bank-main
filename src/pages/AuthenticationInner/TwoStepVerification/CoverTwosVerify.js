@@ -27,7 +27,7 @@ const CoverTwosVerify = () => {
     if (!password) {
       return;
     }
-    dispatch(setPassword({ id: user.id, password }));
+    dispatch(setPassword({ id: user?.id, password }));
   };
   useEffect(() => {
     if (confirmPass) {

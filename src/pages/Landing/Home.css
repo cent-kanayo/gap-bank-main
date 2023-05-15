@@ -154,6 +154,12 @@ span {
   transition: 0.5s all linear;
 }
 
+.error {
+  color: '#ff0000';
+  font-size: 0.75rem;
+  padding: 0 8px;
+}
+
 .sidebar-brand {
   display: flex;
   flex-direction: column;

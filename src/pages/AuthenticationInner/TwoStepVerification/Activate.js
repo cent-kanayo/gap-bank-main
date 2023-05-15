@@ -18,41 +18,40 @@ import ParticlesAuth from '../ParticlesAuth';
 //import images
 import logoLight from '../../../assets/images/logo-light.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { activate } from '../../../store/features/auth';
+import { authorize } from '../../../store/features/auth';
 
 import Navbar from '../../Landing/Navbar';
 
 import '../../Landing/Home.css';
 
-const BasicTwosVerify = () => {
+const Activate = () => {
   document.title = 'Confirm OTP';
   const [otp, setOtp] = useState('');
 
   const dispatch = useDispatch();
   const history = useNavigate();
 
-  const { error, user, isActivated } = useSelector((state) => state.auth);
-
+  const { error, user, isAuthorized } = useSelector((state) => state.auth);
   const onFormSubmit = (e) => {
     e.preventDefault();
     const otpNum = parseInt(otp);
     if (!otpNum) {
       return;
     }
-    dispatch(activate({ email: user?.email, otp: otpNum }));
+    dispatch(authorize({ otp: otpNum, email: user?.email }));
   };
 
   useEffect(() => {
-    if (isActivated) {
-      history('/auth-twostep-cover');
+    if (isAuthorized) {
+      history('/dashboard');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActivated]);
+  }, [isAuthorized]);
   return (
     <React.Fragment>
       <Navbar />
       <div className="auth-page-wrapper">
-        {isActivated && isActivated ? (
+        {isAuthorized && isAuthorized ? (
           <>
             {toast('Your Redirect To Login Page...', {
               position: 'top-right',
@@ -113,7 +112,7 @@ const BasicTwosVerify = () => {
                           <h4 className="">Verify Your Email</h4>
                           <p>
                             Please enter the 6 digit code sent to{' '}
-                            <span className="fw-semibold">{user.email}</span>
+                            <span className="fw-semibold">{user?.email}</span>
                           </p>
                         </div>
 
@@ -168,4 +167,4 @@ const BasicTwosVerify = () => {
   );
 };
 
-export default BasicTwosVerify;
+export default Activate;

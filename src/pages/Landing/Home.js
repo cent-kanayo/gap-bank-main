@@ -24,10 +24,13 @@ const Home = () => {
   const [accountCategory, setAccountCategory] = useState('Account category');
   const [business, setBusiness] = useState('');
   const [isBusiness, setIsBusiness] = useState(false);
+  const [formError, setFormError] = useState(false);
+  const [formErrorMsg, setFormErrorMsg] = useState('');
 
   const dispatch = useDispatch();
   const history = useNavigate();
-  const { error, success, loading } = useSelector((state) => state.auth);
+  const { error, loading, errorMsg, user } = useSelector((state) => state.auth);
+  console.log(errorMsg);
 
   useEffect(() => {
     if (accountCategory === 'business') {
@@ -44,9 +47,20 @@ const Home = () => {
       accountType === 'savings' &&
       (!email || !business || !accountType)
     ) {
+      setFormError(true);
+      setFormErrorMsg(
+        'You need a business name and a current account for this category'
+      );
       return;
     }
     if (accountCategory === 'personal' && (!email || !accountType)) {
+      setFormError(true);
+      setFormErrorMsg('All fields are required');
+      return;
+    }
+    if (!email || !accountType || !accountCategory) {
+      setFormError(true);
+      setFormErrorMsg('All fields are required');
       return;
     }
     if (accountCategory === 'personal') {
@@ -64,14 +78,14 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (success) {
-      history('/auth-activate');
+    if (user) {
+      history('/auth-twostep-basic');
     }
 
     // setTimeout(() => {
     //   dispatch(resetRegisterFlag());
     // }, 3000);
-  }, [dispatch, success, error, history]);
+  }, [dispatch, user, error, history]);
   return (
     <React.Fragment>
       <section className="section hero-section bg-light pb-0" id="home">
@@ -93,6 +107,8 @@ const Home = () => {
             </p>
 
             <Form onSubmit={onFormSubmit} className="job-panel-filter">
+              {error && <p className="error">{errorMsg}</p>}
+              {formError && <p className="error">{formErrorMsg}</p>}
               <Row xs="1" md="2" lg="3">
                 <Col className="col-md-4 mb-2">
                   <div>
@@ -127,7 +143,7 @@ const Home = () => {
                       value={accountCategory}
                       onChange={(e) => setAccountCategory(e.target.value)}
                     >
-                      <option value="">Account type</option>
+                      <option value="">Account category</option>
                       <option value="personal">Personal</option>
                       <option value="business">Business</option>
                     </select>

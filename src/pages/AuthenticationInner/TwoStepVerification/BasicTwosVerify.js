@@ -18,7 +18,7 @@ import ParticlesAuth from '../ParticlesAuth';
 //import images
 import logoLight from '../../../assets/images/logo-light.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { authorize } from '../../../store/features/auth';
+import { activate } from '../../../store/features/auth';
 
 import Navbar from '../../Landing/Navbar';
 
@@ -32,7 +32,7 @@ const BasicTwosVerify = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
 
-  const { error, user, isAuthorized } = useSelector((state) => state.auth);
+  const { error, user, isActivated } = useSelector((state) => state.auth);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
@@ -40,20 +40,20 @@ const BasicTwosVerify = () => {
     if (!otpNum) {
       return;
     }
-    dispatch(authorize({ email: user?.email, otp: otpNum }));
+    dispatch(activate({ email: user?.email, otp: otpNum }));
   };
 
   useEffect(() => {
-    if (isAuthorized) {
-      history('/dashboard');
+    if (isActivated) {
+      history('/auth-twostep-cover');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthorized]);
+  }, [isActivated]);
   return (
     <React.Fragment>
       <Navbar />
       <div className="auth-page-wrapper">
-        {isAuthorized && isAuthorized ? (
+        {isActivated && isActivated ? (
           <>
             {toast('Your Redirect To Login Page...', {
               position: 'top-right',
@@ -115,7 +115,9 @@ const BasicTwosVerify = () => {
                           <h4 className="">Verify Your Email</h4>
                           <p>
                             Please enter the 6 digit code sent to{' '}
-                            <span className="fw-semibold">{user.email}</span>
+                            <span className="fw-semibold">
+                              {user && user?.email}
+                            </span>
                           </p>
                         </div>
 
