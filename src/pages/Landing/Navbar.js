@@ -6,7 +6,7 @@ import LogoDark from '../../assets/images/gapfinance-bluelogo.png';
 import LogoLight from '../../assets/images/logo-light.png';
 import './Home.css';
 import Sidebar from './Sidebar';
-const Navbar = () => {
+const Navbar = ({ isRegister }) => {
   const [isOpenMenu, setisOpenMenu] = useState(false);
   const [navClass, setnavClass] = useState('');
   const navRef = useRef(null);
@@ -30,10 +30,8 @@ const Navbar = () => {
   return (
     <React.Fragment>
       <nav
-        className={
-          'navbar navbar-expand-lg navbar-landing fixed-top job-navbar' +
-          navClass
-        }
+        className={`navbar navbar-expand-lg navbar-landing fixed-top job-navbar
+          ${navClass} ${isRegister ? 'register' : ''}`}
         id="navbar"
       >
         <Container fluid className="custom-container">
@@ -79,7 +77,7 @@ const Navbar = () => {
                     id="navbar-example"
                   >
                     <li className="nav-item">
-                      <NavLink className="fs-16" href="#home">
+                      <NavLink className="fs-16" to="/">
                         Home
                       </NavLink>
                     </li>

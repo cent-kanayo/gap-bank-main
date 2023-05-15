@@ -18,21 +18,20 @@ import ParticlesAuth from '../ParticlesAuth';
 //import images
 import logoLight from '../../../assets/images/logo-light.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { authorize } from '../../../store/features/auth';
+import { activate } from '../../../store/features/auth';
 
 import Navbar from '../../Landing/Navbar';
 
 import '../../Landing/Home.css';
 
 const BasicTwosVerify = () => {
-  document.title = 'Authorize access';
-
+  document.title = 'Confirm OTP';
   const [otp, setOtp] = useState('');
 
   const dispatch = useDispatch();
   const history = useNavigate();
 
-  const { error, user, isAuthorized } = useSelector((state) => state.auth);
+  const { error, user, isActivated } = useSelector((state) => state.auth);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
@@ -40,20 +39,20 @@ const BasicTwosVerify = () => {
     if (!otpNum) {
       return;
     }
-    dispatch(authorize({ email: user?.email, otp: otpNum }));
+    dispatch(activate({ email: user?.email, otp: otpNum }));
   };
 
   useEffect(() => {
-    if (isAuthorized) {
-      history('/dashboard');
+    if (isActivated) {
+      history('/auth-twostep-cover');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthorized]);
+  }, [isActivated]);
   return (
     <React.Fragment>
       <Navbar />
       <div className="auth-page-wrapper">
-        {isAuthorized && isAuthorized ? (
+        {isActivated && isActivated ? (
           <>
             {toast('Your Redirect To Login Page...', {
               position: 'top-right',
@@ -64,7 +63,7 @@ const BasicTwosVerify = () => {
             })}
             <ToastContainer autoClose={2000} limit={1} />
             <Alert color="success">
-              Register User Successfully and Your Redirect To Dashboard...
+              Confirmed User Successfully and Your Redirect To Dashboard...
             </Alert>
           </>
         ) : null}
@@ -72,8 +71,7 @@ const BasicTwosVerify = () => {
           <Alert color="danger">
             <div>
               {/* {registrationError} */}
-              Email has been Register Before, Please Use Another Email
-              Address...{' '}
+              Unauthorized
             </div>
           </Alert>
         ) : null}

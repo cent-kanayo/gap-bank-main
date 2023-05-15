@@ -120,3 +120,4 @@ const accountSlice = createSlice({
   reducers: {},
   extraReducers: {},
 });
+export default accountSlice.reducer;

@@ -20,6 +20,7 @@ const initialState = {
   errorMsg: '',
   confirmPass: false,
   isActivated: false,
+  isAuthorized: false,
   success: false,
   isLoggedIn: false,
   user: getUserFromStorage(),
@@ -27,7 +28,7 @@ const initialState = {
 };
 
 export const registerUser = createAsyncThunk(
-  'account/registerUser',
+  'auth/registerUser',
   async (user, thunkAPI) => {
     try {
       const response = await axios.post(`${baseUrl}/auth/register`, user, {
@@ -41,21 +42,9 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
-export const confirmEmail = createAsyncThunk(
-  'account/confirmEmail',
-  async (details, thunkAPI) => {
-    try {
-      const response = await axios.post(`${baseUrl}/auth/authorize`, details);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      thunkAPI.rejectWithValue(error.response.message);
-    }
-  }
-);
 
 export const activate = createAsyncThunk(
-  'account/activate',
+  'auth/activate',
   async (details, thunkAPI) => {
     try {
       const response = await axios.post(
@@ -70,7 +59,7 @@ export const activate = createAsyncThunk(
   }
 );
 export const authorize = createAsyncThunk(
-  'account/authorize',
+  'auth/authorize',
   async (details, thunkAPI) => {
     try {
       const response = await axios.post(`${baseUrl}/auth/authorize`, details);
@@ -82,7 +71,7 @@ export const authorize = createAsyncThunk(
   }
 );
 export const loginUser = createAsyncThunk(
-  'account/loginUser',
+  'auth/loginUser',
   async (details, thunkAPI) => {
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, details, {
@@ -98,7 +87,7 @@ export const loginUser = createAsyncThunk(
 );
 
 export const forgotPassword = createAsyncThunk(
-  'account/forgotPassword',
+  'auth/forgotPassword',
   async (details, thunkAPI) => {
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, details, {
@@ -113,7 +102,7 @@ export const forgotPassword = createAsyncThunk(
 );
 
 export const setPassword = createAsyncThunk(
-  'account/setPassword',
+  'auth/setPassword',
   async (details, thunkAPI) => {
     try {
       const response = await axios.post(
@@ -132,7 +121,7 @@ export const setPassword = createAsyncThunk(
 );
 
 export const getAuthUser = createAsyncThunk(
-  'account/getAuthUser',
+  'auth/getAuthUser',
   async (details, thunkAPI) => {
     try {
       const response = await axios.get(`${baseUrl}/auth/user`, {
@@ -149,7 +138,7 @@ export const getAuthUser = createAsyncThunk(
   }
 );
 export const checkToken = createAsyncThunk(
-  'account/checkToken',
+  'auth/checkToken',
   async (token, thunkAPI) => {
     try {
       const response = await axios.get(`${baseUrl}/auth/check-token/${token}`);
@@ -161,8 +150,8 @@ export const checkToken = createAsyncThunk(
   }
 );
 
-const accountSlice = createSlice({
-  name: 'account',
+const authSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {},
   extraReducers: {
@@ -187,7 +176,6 @@ const accountSlice = createSlice({
     [activate.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isActivated = true;
-      state.account = payload;
     },
     [activate.rejected]: (state, { payload }) => {
       state.loading = true;
@@ -195,18 +183,18 @@ const accountSlice = createSlice({
       state.success = false;
       state.errorMsg = payload;
     },
-    [confirmEmail.pending]: (state) => {
+    [authorize.pending]: (state) => {
       state.loading = true;
     },
-    [confirmEmail.fulfilled]: (state, { payload }) => {
+    [authorize.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.success = true;
+      state.isAuthorized = true;
       state.user = payload;
     },
-    [confirmEmail.rejected]: (state, { payload }) => {
+    [authorize.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = true;
-      state.errorMsg = payload;
+      state.errorMsg = payload?.message;
     },
     [loginUser.pending]: (state) => {
       state.loading = true;
@@ -220,7 +208,7 @@ const accountSlice = createSlice({
     [loginUser.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = true;
-      state.errorMsg = payload;
+      state.errorMsg = payload?.message;
     },
     [setPassword.pending]: (state) => {
       state.loading = true;
@@ -238,4 +226,4 @@ const accountSlice = createSlice({
   },
 });
 
-export default accountSlice.reducer;
+export default authSlice.reducer;

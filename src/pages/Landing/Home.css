@@ -33,6 +33,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 100px;
 }
 .hero__left {
   padding: 0 8px;
@@ -62,10 +63,13 @@
   font-size: 3rem;
 }
 .para {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 .para1 {
-  font-size: 1.25rem;
+  font-size: 1rem;
+}
+.width {
+  width: 100%;
 }
 
 .footer {
@@ -84,6 +88,7 @@
   .hero {
     flex-direction: row;
     gap: 3%;
+    margin-top: auto;
   }
   .user-img {
     width: auto;
@@ -116,9 +121,15 @@
   .footer {
     flex-direction: row;
   }
+  .para {
+    font-size: 1.2rem;
+  }
+  .para1 {
+    font-size: 1.15rem;
+  }
 }
 .sidebar {
-  min-width: 300px;
+  width: 300px;
   height: 100vh;
   background-color: #011868;
   position: fixed;
@@ -127,57 +138,89 @@
   z-index: 99999;
   transform: translateX(100%);
   transition: 0.5s all linear;
-  padding: 15% 0;
+  padding-top: 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  align-items: flex-start;
+}
+span {
+  display: block;
 }
 
 .show-sidebar {
   transform: translateX(0);
   transition: 0.5s all linear;
 }
-.sidebar-links {
+
+.sidebar-brand {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  margin-left: 40px;
 }
-.sidebar-links ul {
+.socials {
+  display: flex;
+  justify-content: center;
+}
+.links-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  color: #ffffff;
 }
-.sidebar-links ul li {
+.links-container .link {
   background-color: #ffffff;
   height: 40px;
   list-style: none;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  color: #ffffff;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  opacity: 0.8;
 }
 
-.sidebar-links ul li:hover {
-  padding-left: 10px;
+.links-container .link:hover {
+  padding-left: 20px;
   transition: 0.25s all linear;
+  opacity: 1;
 }
 .toggle {
   position: absolute;
   right: 10px;
   top: 3%;
   border: none;
+  background-color: #ffffff;
+  padding: 5px;
+}
+.toggle:hover {
+  transform: scale(1.1);
+  transition: all 0.25s ease-in-out;
+}
+.cta {
+  justify-self: center;
+  display: flex;
+  justify-content: center;
+  gap: '20px';
+  padding: 0 20px;
 }
 .sidebar-btn {
   justify-self: center;
   display: flex;
   justify-content: center;
-  gap: '20px';
-}
-.sidebar-btn button {
   background-color: #ffffff;
   margin-right: 10px;
   border: none;
-  padding: 4px 8px;
+  padding: 4px 12px;
   border-radius: 8px;
+  color: #011868;
 }
-.sidebar-btn button:hover {
-  transform: scale(1.1);
+.sidebar-btn:hover {
+  opacity: 0.8;
   transition: all 0.25s linear;
 }
 .custom-footer {

@@ -131,7 +131,7 @@ const initialState = {
   success: false,
   accountInfo: {},
 };
-const accountSlice = createSlice({
+const usersSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {},
@@ -218,3 +218,5 @@ const accountSlice = createSlice({
     },
   },
 });
+
+export default usersSlice.reducer;

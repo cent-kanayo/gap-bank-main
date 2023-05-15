@@ -152,3 +152,5 @@ const settingSlice = createSlice({
     },
   },
 });
+
+export default settingSlice.reducer;

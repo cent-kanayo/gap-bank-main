@@ -16,6 +16,7 @@ import img from '../../assets/images/auth-one.png';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { loginUser } from '../../store/features/auth';
+import Navbar from '../Landing/Navbar';
 
 const Login = () => {
   document.title = 'GAP Bank | Signin';
@@ -35,12 +36,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      setTimeout(() => navigate('/dashboard'));
+    if (!isLoggedIn) {
+      navigate('/auth-twostep-basic');
     }
   }, [dispatch, isLoggedIn, error, navigate]);
   return (
     <React.Fragment>
+      <Navbar />
       <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
         <div className="bg-overlay"></div>
         <div className="auth-page-content overflow-hidden pt-lg-5">
@@ -90,7 +92,7 @@ const Login = () => {
                       <Card className="px-4 py-5">
                         <div>
                           <h5 className="text-primary fw-bold">
-                            Sign in to Gap Bank
+                            Sign in to Gap Finance
                           </h5>
                         </div>
 

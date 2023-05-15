@@ -73,7 +73,7 @@ const initialState = {
   success: false,
   permissions: {},
 };
-const settingSlice = createSlice({
+const permissionSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {},
@@ -127,3 +127,5 @@ const settingSlice = createSlice({
     },
   },
 });
+
+export default permissionSlice.reducer;

@@ -41,6 +41,7 @@
 
 .navbar-landing {
   padding: 10px 0px;
+  z-index: 10000;
   transition: all 0.5s ease;
   @media (max-width: 991.98px) {
     background-color: var(--#{$prefix}card-bg-custom);
@@ -74,6 +75,9 @@
         }
       }
     }
+  }
+  .register {
+    background-color: var(--#{$prefix}card-bg-custom) !important;
   }
 
   &.is-sticky {

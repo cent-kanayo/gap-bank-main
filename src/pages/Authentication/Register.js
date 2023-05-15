@@ -11,6 +11,7 @@ import {
   Form,
   FormFeedback,
   Button,
+  InputGroup,
 } from 'reactstrap';
 
 // Formik Validation
@@ -31,13 +32,14 @@ import { Link, useNavigate } from 'react-router-dom';
 //import images
 import logoLight from '../../assets/images/logo-light.png';
 import ParticlesAuth from '../AuthenticationInner/ParticlesAuth';
+import Navbar from '../Landing/Navbar';
 
 const Register = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   const [business, setBusinessName] = useState('');
-  const [accountType, setAccountType] = useState('savings');
-  const [accountCategory, setAccountCategory] = useState('personal');
+  const [accountType, setAccountType] = useState('');
+  const [accountCategory, setAccountCategory] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isBusiness, setIsBusiness] = useState(false);
@@ -83,7 +85,7 @@ const Register = () => {
 
   useEffect(() => {
     if (success) {
-      setTimeout(() => history('/auth-twostep-basic'), 3000);
+      history('/auth-activate');
     }
 
     // setTimeout(() => {
@@ -91,10 +93,11 @@ const Register = () => {
     // }, 3000);
   }, [dispatch, success, error, history]);
 
-  document.title = 'Basic SignUp | Velzon - React Admin & Dashboard Template';
+  document.title = 'SignUp on Gap Finance';
 
   return (
     <React.Fragment>
+      <Navbar isRegister={true} />
       <ParticlesAuth>
         <div className="auth-page-content">
           <Container>
@@ -178,6 +181,7 @@ const Register = () => {
                             value={accountCategory}
                             onChange={(e) => setAccountCategory(e.target.value)}
                           >
+                            <option value="">Account Category</option>
                             <option value="personal">Personal</option>
                             <option value="business">Business</option>
                           </select>
@@ -186,10 +190,18 @@ const Register = () => {
                           <Label htmlFor="useremail" className="form-label">
                             AccountType <span className="text-danger">*</span>
                           </Label>
-                          <select value={accountType}>
-                            <option value="savings">Savings</option>
-                            <option value="current">Current</option>
-                          </select>
+                          <div>
+                            <select
+                              className="form-control"
+                              data-choices
+                              value={accountType}
+                              onChange={(e) => setAccountType(e.target.value)}
+                            >
+                              <option value="">Account type</option>
+                              <option value="savings">Savings</option>
+                              <option value="current">Current</option>
+                            </select>
+                          </div>
                         </div>
                         <div className="mb-3">
                           <Label htmlFor="username" className="form-label">

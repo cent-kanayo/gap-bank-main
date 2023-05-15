@@ -5,16 +5,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Card, Col, Container, Row } from 'reactstrap';
 import { setPassword } from '../../../store/features/auth';
 
+import Navbar from '../../Landing/Navbar';
+
 //import images
 import AuthSlider from '../authCarousel';
 
+import '../../Landing/Home.css';
+
 const CoverTwosVerify = () => {
-  document.title =
-    'Two Step Verification | Velzon - React Admin & Dashboard Template';
+  document.title = 'Set password | Gap Finance';
 
   const [password, setUserPassword] = useState('');
 
-  const { confirmPass, user } = useSelector((state) => state.account);
+  const { confirmPass, user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,12 +31,13 @@ const CoverTwosVerify = () => {
   };
   useEffect(() => {
     if (confirmPass) {
-      navigate('/dashboard');
+      navigate('/login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmPass]);
   return (
     <React.Fragment>
+      <Navbar />
       <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
         <div className="bg-overlay"></div>
         <div className="auth-page-content overflow-hidden pt-lg-5">
@@ -53,31 +57,29 @@ const CoverTwosVerify = () => {
                           </div>
                         </div>
                         <div className="text-muted text-center mx-lg-3">
-                          <h4 className="">Conform Password</h4>
+                          <h4 className="">Create Password</h4>
                           <p>Please set your password</p>
                         </div>
 
                         <div className="mt-4">
                           <form onSubmit={onFormSubmit}>
                             <Row>
-                              <Col className="col-3">
-                                <div className="mb-3">
-                                  <label
-                                    htmlFor="digit1-input"
-                                    className="visually-hidden"
-                                  >
-                                    Password
-                                  </label>
-                                  <input
-                                    type="password"
-                                    className="form-control form-control-lg bg-light border-light text-center"
-                                    value={password}
-                                    onChange={(e) =>
-                                      setUserPassword(e.target.value)
-                                    }
-                                  />
-                                </div>
-                              </Col>
+                              <div className="mb-3">
+                                <label
+                                  htmlFor="digit1-input"
+                                  className="visually-hidden"
+                                >
+                                  Password
+                                </label>
+                                <input
+                                  type="password"
+                                  className="form-control form-control-lg bg-light border-light width"
+                                  value={password}
+                                  onChange={(e) =>
+                                    setUserPassword(e.target.value)
+                                  }
+                                />
+                              </div>
                             </Row>
 
                             <div className="mt-3">
@@ -111,20 +113,6 @@ const CoverTwosVerify = () => {
             </Row>
           </Container>
         </div>
-        <footer className="footer">
-          <Container>
-            <Row>
-              <Col lg={12}>
-                <div className="text-center">
-                  <p className="mb-0">
-                    &copy; {new Date().getFullYear()} Velzon. Crafted with{' '}
-                    <i className="mdi mdi-heart text-danger"></i> by Themesbrand
-                  </p>
-                </div>
-              </Col>
-            </Row>
-          </Container>
-        </footer>
       </div>
     </React.Fragment>
   );

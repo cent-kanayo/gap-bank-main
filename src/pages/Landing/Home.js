@@ -27,7 +27,7 @@ const Home = () => {
 
   const dispatch = useDispatch();
   const history = useNavigate();
-  const { error, success, loading } = useSelector((state) => state.account);
+  const { error, success, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (accountCategory === 'business') {
@@ -65,7 +65,7 @@ const Home = () => {
 
   useEffect(() => {
     if (success) {
-      setTimeout(() => history('/auth-twostep-basic'), 3000);
+      history('/auth-activate');
     }
 
     // setTimeout(() => {
@@ -93,8 +93,8 @@ const Home = () => {
             </p>
 
             <Form onSubmit={onFormSubmit} className="job-panel-filter">
-              <Row xs="2">
-                <Col className="col-md-4">
+              <Row xs="1" md="2" lg="3">
+                <Col className="col-md-4 mb-2">
                   <div>
                     <Input
                       type="text"
@@ -105,7 +105,7 @@ const Home = () => {
                     />
                   </div>
                 </Col>
-                <Col className="col-md-4">
+                <Col className="col-md-4 mb-2">
                   <div>
                     <select
                       className="form-control"
@@ -119,7 +119,7 @@ const Home = () => {
                     </select>
                   </div>
                 </Col>
-                <Col className="col-md-4">
+                <Col className="col-md-4 mb-2">
                   <div>
                     <select
                       className="form-control"
@@ -146,7 +146,7 @@ const Home = () => {
                     </div>
                   </Col>
                 )}
-                <Col className="col-md-4">
+                <Col lg="12" className="col-md-4">
                   <div className="h-100">
                     <button
                       className="btn btn-primary submit-btn w-100 h-100"

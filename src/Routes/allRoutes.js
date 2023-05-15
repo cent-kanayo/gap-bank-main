@@ -180,6 +180,7 @@ import CoverLogout from '../pages/AuthenticationInner/Logout/CoverLogout';
 import BasicSuccessMsg from '../pages/AuthenticationInner/SuccessMessage/BasicSuccessMsg';
 import CoverSuccessMsg from '../pages/AuthenticationInner/SuccessMessage/CoverSuccessMsg';
 import BasicTwosVerify from '../pages/AuthenticationInner/TwoStepVerification/BasicTwosVerify';
+import Activate from '../pages/AuthenticationInner/TwoStepVerification/Activate';
 import CoverTwosVerify from '../pages/AuthenticationInner/TwoStepVerification/CoverTwosVerify';
 import Basic404 from '../pages/AuthenticationInner/Errors/Basic404';
 import Cover404 from '../pages/AuthenticationInner/Errors/Cover404';
@@ -498,6 +499,7 @@ const publicRoutes = [
   { path: '/auth-success-msg-basic', component: <BasicSuccessMsg /> },
   { path: '/auth-success-msg-cover', component: <CoverSuccessMsg /> },
   { path: '/auth-twostep-basic', component: <BasicTwosVerify /> },
+  { path: '/auth-activate', component: <Activate /> },
   { path: '/auth-twostep-cover', component: <CoverTwosVerify /> },
   { path: '/auth-404-basic', component: <Basic404 /> },
   { path: '/auth-404-cover', component: <Cover404 /> },

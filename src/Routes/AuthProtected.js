@@ -1,30 +1,23 @@
-import React, { useEffect } from "react";
-import { Navigate, Route } from "react-router-dom";
-import { setAuthorization } from "../helpers/api_helper";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { Navigate, Route } from 'react-router-dom';
+import { setAuthorization } from '../helpers/api_helper';
+import { useDispatch } from 'react-redux';
 
-import { useProfile } from "../Components/Hooks/UserHooks";
+import { useProfile } from '../Components/Hooks/UserHooks';
 
-import { logoutUser } from "../store/actions";
+import { logoutUser } from '../store/actions';
 
 const AuthProtected = (props) => {
   const dispatch = useDispatch();
-  const { userProfile, loading, token } = useProfile();
-  useEffect(() => {
-    if (userProfile && !loading && token) {
-      setAuthorization(token);
-    } else if (!userProfile && loading && !token) {
-      dispatch(logoutUser());
-    }
-  }, [token, userProfile, loading, dispatch]);
+  const { user, token } = useProfile();
 
   /*
     redirect is un-auth access protected routes via url
   */
 
-  if (!userProfile && loading && !token) {
+  if (!user) {
     return (
-      <Navigate to={{ pathname: "/login", state: { from: props.location } }} />
+      <Navigate to={{ pathname: '/login', state: { from: props.location } }} />
     );
   }
 
@@ -35,8 +28,13 @@ const AccessRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props => {
-        return (<> <Component {...props} /> </>);
+      render={(props) => {
+        return (
+          <>
+            {' '}
+            <Component {...props} />{' '}
+          </>
+        );
       }}
     />
   );
