@@ -36,7 +36,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (isLoggedIn) {
       navigate('/auth-twostep-basic');
     }
   }, [dispatch, isLoggedIn, error, navigate]);

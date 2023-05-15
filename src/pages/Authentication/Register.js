@@ -180,6 +180,8 @@ const Register = () => {
                           <select
                             value={accountCategory}
                             onChange={(e) => setAccountCategory(e.target.value)}
+                            className="form-control"
+                            data-choices
                           >
                             <option value="">Account Category</option>
                             <option value="personal">Personal</option>

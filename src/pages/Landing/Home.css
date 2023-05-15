@@ -143,6 +143,7 @@
   flex-direction: column;
   gap: 100px;
   align-items: flex-start;
+  overflow-y: scroll;
 }
 span {
   display: block;
