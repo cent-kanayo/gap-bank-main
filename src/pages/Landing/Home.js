@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
+  Alert,
   Card,
   Col,
   Container,
@@ -10,13 +11,15 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 
+import { ToastContainer, toast } from 'react-toastify';
+
 import Landing1 from '../../assets/images/landing.png';
 import './Home.css';
 
 import { Slide, Fade } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { registerUser } from '../../store/features/auth';
+import { registerUser, resetError } from '../../store/features/auth';
 
 const Home = () => {
   const [email, setEmail] = useState('');
@@ -29,8 +32,9 @@ const Home = () => {
 
   const dispatch = useDispatch();
   const history = useNavigate();
-  const { error, loading, errorMsg, user } = useSelector((state) => state.auth);
-  console.log(errorMsg);
+  const { error, loading, errorMsg, user, success } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
     if (accountCategory === 'business') {
@@ -42,6 +46,11 @@ const Home = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    if (!email || !accountType || !accountCategory) {
+      setFormError(true);
+      setFormErrorMsg('All fields are required');
+      return;
+    }
     if (
       accountCategory === 'business' &&
       accountType === 'savings' &&
@@ -58,11 +67,7 @@ const Home = () => {
       setFormErrorMsg('All fields are required');
       return;
     }
-    if (!email || !accountType || !accountCategory) {
-      setFormError(true);
-      setFormErrorMsg('All fields are required');
-      return;
-    }
+
     if (accountCategory === 'personal') {
       dispatch(registerUser({ email, accountType, accountCategory }));
       return;
@@ -78,17 +83,49 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (success) {
       history('/auth-twostep-basic');
     }
 
     // setTimeout(() => {
     //   dispatch(resetRegisterFlag());
     // }, 3000);
-  }, [dispatch, user, error, history]);
+  }, [dispatch, success, error, history]);
+  useEffect(() => {
+    if (error) {
+      const timeOut = setTimeout(() => {
+        dispatch(resetError());
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
   return (
     <React.Fragment>
       <section className="section hero-section bg-light pb-0" id="home">
+        {success && success ? (
+          <>
+            {toast('Your Redirect To Login Page...', {
+              position: 'top-right',
+              hideProgressBar: false,
+              className: 'bg-success text-white',
+              progress: undefined,
+              toastId: '',
+            })}
+            <ToastContainer autoClose={2000} limit={1} />
+            <Alert color="success">
+              Register User Successfully and Your Redirect To Dashboard...
+            </Alert>
+          </>
+        ) : null}
+        {error && error ? (
+          <Alert color="danger">
+            <div>
+              {/* {registrationError} */}
+              {errorMsg}
+            </div>
+          </Alert>
+        ) : null}
         <div className="hero">
           <div className="hero__left">
             <h1 className="fw-bold text-capitalize mb-3 lh-base text-primary mobile-text">
@@ -107,7 +144,6 @@ const Home = () => {
             </p>
 
             <Form onSubmit={onFormSubmit} className="job-panel-filter">
-              {error && <p className="error">{errorMsg}</p>}
               {formError && <p className="error">{formErrorMsg}</p>}
               <Row xs="1" md="2" lg="3">
                 <Col className="col-md-4 mb-2">

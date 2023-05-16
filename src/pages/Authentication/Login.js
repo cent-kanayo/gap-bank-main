@@ -9,7 +9,11 @@ import {
   Row,
   Button,
   CardBody,
+  Alert,
 } from 'reactstrap';
+
+import { ToastContainer, toast } from 'react-toastify';
+
 import CountUp from 'react-countup';
 
 import img from '../../assets/images/auth-one.png';
@@ -26,7 +30,9 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, isLoggedIn, error } = useSelector((state) => state.auth);
+  const { loading, isLoggedIn, error, errorMsg } = useSelector(
+    (state) => state.auth
+  );
   const onFormSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -44,6 +50,28 @@ const Login = () => {
     <React.Fragment>
       <Navbar />
       <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+        {isLoggedIn && isLoggedIn ? (
+          <>
+            {toast('Your Redirect To Login Page...', {
+              position: 'top-right',
+              hideProgressBar: false,
+              className: 'bg-success text-white',
+              progress: undefined,
+              toastId: '',
+            })}
+            <ToastContainer autoClose={2000} limit={1} />
+            <Alert color="success">
+              Register User Successfully and Your Redirect To Dashboard...
+            </Alert>
+          </>
+        ) : null}
+        {error && error ? (
+          <Alert color="danger">
+            <div>
+              <p>{errorMsg}</p>
+            </div>
+          </Alert>
+        ) : null}
         <div className="bg-overlay"></div>
         <div className="auth-page-content overflow-hidden pt-lg-5">
           <Container>

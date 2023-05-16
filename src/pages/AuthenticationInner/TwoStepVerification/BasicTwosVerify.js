@@ -32,7 +32,9 @@ const BasicTwosVerify = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
 
-  const { error, user, isActivated } = useSelector((state) => state.auth);
+  const { error, errorMsg, user, isActivated } = useSelector(
+    (state) => state.auth
+  );
 
   const onFormSubmit = (e) => {
     e.preventDefault();
@@ -71,9 +73,7 @@ const BasicTwosVerify = () => {
         {error && error ? (
           <Alert color="danger">
             <div>
-              {/* {registrationError} */}
-              Email has been Register Before, Please Use Another Email
-              Address...{' '}
+              <p>{errorMsg}</p>
             </div>
           </Alert>
         ) : null}

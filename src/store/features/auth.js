@@ -83,7 +83,7 @@ export const loginUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue('Invalid credentials');
     }
   }
 );
@@ -156,7 +156,11 @@ export const checkToken = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    resetError: (state) => {
+      state.error = false;
+    },
+  },
   extraReducers: {
     [registerUser.pending]: (state) => {
       state.loading = true;
@@ -209,11 +213,13 @@ const authSlice = createSlice({
     [loginUser.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isLoggedIn = true;
+      state.user = payload.data;
+      localStorage.setItem('user', JSON.stringify(payload.data));
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = true;
-      state.errorMsg = payload?.message;
+      state.errorMsg = payload;
     },
     [setPassword.pending]: (state) => {
       state.loading = true;
@@ -232,5 +238,7 @@ const authSlice = createSlice({
     },
   },
 });
+
+export const { resetError } = authSlice.actions;
 
 export default authSlice.reducer;

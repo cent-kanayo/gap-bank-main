@@ -21,10 +21,12 @@ import { Link } from 'react-router-dom';
 
 import { StoreVisitsCharts } from '../Components/Common/DashboardCharts';
 import { TransactionsTable } from './Transfer/Components';
+import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
   document.title = 'GAP Finance | Account';
 
+  const { user } = useSelector((state) => state.auth);
   return (
     <React.Fragment>
       <div className="page-content">

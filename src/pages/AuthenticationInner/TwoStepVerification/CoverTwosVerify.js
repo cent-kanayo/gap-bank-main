@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Card, Col, Container, Row } from 'reactstrap';
+import { Alert, Button, Card, Col, Container, Row } from 'reactstrap';
 import { setPassword } from '../../../store/features/auth';
+
+import { ToastContainer, toast } from 'react-toastify';
 
 import Navbar from '../../Landing/Navbar';
 
@@ -17,7 +19,9 @@ const CoverTwosVerify = () => {
 
   const [password, setUserPassword] = useState('');
 
-  const { confirmPass, user } = useSelector((state) => state.auth);
+  const { confirmPass, user, error, errorMsg } = useSelector(
+    (state) => state.auth
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,6 +43,28 @@ const CoverTwosVerify = () => {
     <React.Fragment>
       <Navbar />
       <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+        {confirmPass && confirmPass ? (
+          <>
+            {toast('Your Redirect To Login Page...', {
+              position: 'top-right',
+              hideProgressBar: false,
+              className: 'bg-success text-white',
+              progress: undefined,
+              toastId: '',
+            })}
+            <ToastContainer autoClose={2000} limit={1} />
+            <Alert color="success">
+              Register User Successfully and Your Redirect To Dashboard...
+            </Alert>
+          </>
+        ) : null}
+        {error && error ? (
+          <Alert color="danger">
+            <div>
+              <p>{errorMsg}</p>
+            </div>
+          </Alert>
+        ) : null}
         <div className="bg-overlay"></div>
         <div className="auth-page-content overflow-hidden pt-lg-5">
           <Container>
