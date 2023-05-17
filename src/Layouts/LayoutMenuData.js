@@ -137,7 +137,7 @@ const Navdata = () => {
       id: 'dashboard',
       label: 'Dashboard',
       icon: 'ri-dashboard-2-line',
-      link: '/#',
+      link: '/dashboard',
       click: function (e) {
         e.preventDefault();
         setIscurrentState('Dashboard');

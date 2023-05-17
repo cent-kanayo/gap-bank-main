@@ -12,34 +12,33 @@ import EcommerceWidgets from './EcommerceWidgets';
 import CreditCard from './CreditCard';
 
 const Widgets = () => {
-    document.title="Widgets | Velzon - React Admin & Dashboard Template";
-    return (
-        <React.Fragment>
-            <div className="page-content">
-                <Container fluid>
-                    <BreadCrumb title="Widgets" pageTitle="Velzon" />
-                    {/* Tile Boxs Widgets */}
-                    <TileBoxs />
+  document.title = 'GAP Finance | Make a transfer';
+  return (
+    <React.Fragment>
+      <div className="page-content">
+        <Container fluid>
+          <BreadCrumb title="Widgets" pageTitle="Velzon" />
+          {/* Tile Boxs Widgets */}
+          <TileBoxs />
 
-                    {/* Other Widgets */}
-                    <OtherWidgets />
+          {/* Other Widgets */}
+          <OtherWidgets />
 
-                    {/* Upcoming Activity */}
-                    <UpcomingActivity />
+          {/* Upcoming Activity */}
+          <UpcomingActivity />
 
-                    {/* Chart & Map Widgets */}
-                    <ChartMapWidgets />
+          {/* Chart & Map Widgets */}
+          <ChartMapWidgets />
 
-                    {/* Chart & EcommerceWidgets  */}
-                    <EcommerceWidgets />
+          {/* Chart & EcommerceWidgets  */}
+          <EcommerceWidgets />
 
-                    {/* CreditCard */}
-                    <CreditCard />
-
-                </Container>
-            </div>
-        </React.Fragment>
-    );
+          {/* CreditCard */}
+          <CreditCard />
+        </Container>
+      </div>
+    </React.Fragment>
+  );
 };
 
 export default Widgets;

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import SimpleBar from 'simplebar-react';
 //import logo
 import logoSm from '../assets/images/logo-sm.png';
-import logoDark from '../assets/images/logo-dark.png';
-import logoLight from '../assets/images/logo-light.png';
+import logoDark from '../assets/images/gapfinance-bluelogo.png';
+import logoLight from '../assets/images/gapfinance-whitelogo.png';
 
 import VerticalLayout from './VerticalLayouts';
 import { Container } from 'reactstrap';
@@ -47,13 +47,25 @@ const Sidebar = ({ layoutType }) => {
               <img src={logoSm} alt="" height="22" />
             </span>
             <span className="logo-lg">
-              <img src={logoDark} alt="" height="35" />
+              <img
+                src={logoDark}
+                alt=""
+                width="100"
+                height="58"
+                style={{ objectFit: 'cover' }}
+              />
             </span>
           </Link>
 
           <Link to="/" className="logo logo-light">
             <span className="logo-sm">
-              <img src={logoSm} alt="" height="22" />
+              <img
+                src={logoSm}
+                alt=""
+                height="22"
+                width="40"
+                style={{ objectFit: 'cover' }}
+              />
             </span>
             <span className="logo-lg">
               <img src={logoLight} alt="" height="35" />

@@ -112,12 +112,12 @@ const Layout = (props) => {
   return (
     <React.Fragment>
       <div id="layout-wrapper">
-        {/* <Header
+        <Header
           headerClass={headerClass}
-          layoutModeType={layoutModeType}
+          // layoutModeType={layoutModeType}
           onChangeLayoutMode={onChangeLayoutMode}
-        /> */}
-        {/* <Sidebar layoutType={layoutType} /> */}
+        />
+        <Sidebar />
         <div className="main-content">
           {props.children}
           <Footer />

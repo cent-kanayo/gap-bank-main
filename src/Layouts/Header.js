@@ -4,8 +4,8 @@ import { Dropdown, DropdownMenu, DropdownToggle, Form } from 'reactstrap';
 
 //import images
 import logoSm from '../assets/images/logo-sm.png';
-import logoDark from '../assets/images/logo-dark.png';
-import logoLight from '../assets/images/logo-light.png';
+import logoDark from '../assets/images/gapfinance-bluelogo.png';
+import logoLight from '../assets/images/gapfinance-whitelogo.png';
 
 //import Components
 import SearchOption from '../Components/Common/SearchOption';
@@ -73,7 +73,13 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                     <img src={logoSm} alt="" height="22" />
                   </span>
                   <span className="logo-lg">
-                    <img src={logoDark} alt="" height="17" />
+                    <img
+                      src={logoDark}
+                      alt=""
+                      width="100"
+                      height="58"
+                      style={{ objectFit: 'cover' }}
+                    />
                   </span>
                 </Link>
 
@@ -87,51 +93,65 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                 </Link>
               </div>
 
-              {/* <button
-                                onClick={toogleMenuBtn}
-                                type="button"
-                                className="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
-                                id="topnav-hamburger-icon">
-                                <span className="hamburger-icon">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </span>
-                            </button>
+              <button
+                onClick={toogleMenuBtn}
+                type="button"
+                className="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
+                id="topnav-hamburger-icon"
+              >
+                <span className="hamburger-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </button>
 
-                            <SearchOption /> */}
+              <SearchOption />
             </div>
 
             <div className="d-flex align-items-center">
-              {/* <Dropdown isOpen={search} toggle={toogleSearch} className="d-md-none topbar-head-dropdown header-item">
-                                <DropdownToggle type="button" tag="button" className="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle">
-                                    <i className="bx bx-search fs-22"></i>
-                                </DropdownToggle>
-                                <DropdownMenu className="dropdown-menu-lg dropdown-menu-end p-0">
-                                    <Form className="p-3">
-                                        <div className="form-group m-0">
-                                            <div className="input-group">
-                                                <input type="text" className="form-control" placeholder="Search ..."
-                                                    aria-label="Recipient's username" />
-                                                <button className="btn btn-primary" type="submit"><i
-                                                    className="mdi mdi-magnify"></i></button>
-                                            </div>
-                                        </div>
-                                    </Form>
-                                </DropdownMenu>
-                            </Dropdown> */}
+              <Dropdown
+                isOpen={search}
+                toggle={toogleSearch}
+                className="d-md-none topbar-head-dropdown header-item"
+              >
+                <DropdownToggle
+                  type="button"
+                  tag="button"
+                  className="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                >
+                  <i className="bx bx-search fs-22"></i>
+                </DropdownToggle>
+                <DropdownMenu className="dropdown-menu-lg dropdown-menu-end p-0">
+                  <Form className="p-3">
+                    <div className="form-group m-0">
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Search ..."
+                          aria-label="Recipient's username"
+                        />
+                        <button className="btn btn-primary" type="submit">
+                          <i className="mdi mdi-magnify"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </Form>
+                </DropdownMenu>
+              </Dropdown>
 
               {/* LanguageDropdown */}
               {/* <LanguageDropdown /> */}
 
               {/* WebAppsDropdown */}
-              {/* <WebAppsDropdown /> */}
+              <WebAppsDropdown />
 
               {/* MyCartDropdwon */}
-              {/* <MyCartDropdown /> */}
+              <MyCartDropdown />
 
               {/* FullScreenDropdown */}
-              {/* <FullScreenDropdown /> */}
+              <FullScreenDropdown />
 
               {/* Dark/Light Mode set */}
               {/* <LightDark
@@ -143,7 +163,7 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
               {/* <NotificationDropdown /> */}
 
               {/* ProfileDropdown */}
-              {/* <ProfileDropdown /> */}
+              <ProfileDropdown />
             </div>
           </div>
         </div>
