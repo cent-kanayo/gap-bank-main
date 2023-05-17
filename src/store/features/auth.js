@@ -210,7 +210,7 @@ const authSlice = createSlice({
     [authorize.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = true;
-      state.errorMsg = payload?.message;
+      state.errorMsg = payload;
     },
     [loginUser.pending]: (state) => {
       state.loading = true;
