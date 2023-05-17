@@ -132,15 +132,15 @@ const Home = () => {
         <div className="hero">
           <div className="hero__left">
             <h1 className="fw-bold text-capitalize mb-3 lh-base text-primary mobile-text">
-              START AFRESH WITH GAPFINANCE
+              START AFRESH WITH GAP Finance
             </h1>
             <h1 className="fw-bold text-capitalize mb-3 lh-base text-primary large-text">
-              Start afresh <br /> with GAPFINANCE
+              Start afresh <br /> with GAP Finance
             </h1>
 
             {/* text-muted */}
             <p className="lead lh-base mb-4">
-              GapFinance is reliable, the ultimate goal of GapFinance is to
+              GAP Finance is reliable, the ultimate goal of GAP Finance is to
               create a system that brings happiness to every customer, this is
               more than just a bank, this is he bridge giving hope to
               entrepreneurs and supporting the youths.

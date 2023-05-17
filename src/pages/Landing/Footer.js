@@ -149,7 +149,7 @@ const Footer = () => {
             <Col className="col-sm-6">
               <div>
                 <p className="copy-rights mb-0 fs-13">
-                  © {new Date().getFullYear()} GAP Bank. All rights reserved.
+                  © {new Date().getFullYear()} GAP Finance. All rights reserved.
                 </p>
               </div>
             </Col>
