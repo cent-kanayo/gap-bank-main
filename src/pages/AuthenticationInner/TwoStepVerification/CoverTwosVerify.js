@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button, Card, Col, Container, Row } from 'reactstrap';
-import { setPassword } from '../../../store/features/auth';
+import { resetError, setPassword } from '../../../store/features/auth';
 
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -39,32 +39,19 @@ const CoverTwosVerify = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confirmPass]);
+  useEffect(() => {
+    if (error) {
+      const timeOut = setTimeout(() => {
+        dispatch(resetError());
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
   return (
     <React.Fragment>
       <Navbar />
       <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
-        {confirmPass && confirmPass ? (
-          <>
-            {toast('Your Redirect To Login Page...', {
-              position: 'top-right',
-              hideProgressBar: false,
-              className: 'bg-success text-white',
-              progress: undefined,
-              toastId: '',
-            })}
-            <ToastContainer autoClose={2000} limit={1} />
-            <Alert color="success">
-              Register User Successfully and Your Redirect To Dashboard...
-            </Alert>
-          </>
-        ) : null}
-        {error && error ? (
-          <Alert color="danger">
-            <div>
-              <p>{errorMsg}</p>
-            </div>
-          </Alert>
-        ) : null}
         <div className="bg-overlay"></div>
         <div className="auth-page-content overflow-hidden pt-lg-5">
           <Container>
@@ -89,6 +76,35 @@ const CoverTwosVerify = () => {
 
                         <div className="mt-4">
                           <form onSubmit={onFormSubmit}>
+                            {confirmPass && confirmPass ? (
+                              <>
+                                {toast('Your Redirect To Login Page...', {
+                                  position: 'top-right',
+                                  hideProgressBar: false,
+                                  className: 'bg-success text-white',
+                                  progress: undefined,
+                                  toastId: '',
+                                })}
+                                <ToastContainer autoClose={2000} limit={1} />
+                                <Alert color="success">
+                                  Register User Successfully and Your Redirect
+                                  To Dashboard...
+                                </Alert>
+                              </>
+                            ) : null}
+                            {error && error ? (
+                              <Alert
+                                color="danger"
+                                style={{
+                                  padding: '8px 5%',
+                                  textAlign: 'center',
+                                }}
+                              >
+                                <div>
+                                  <p>{errorMsg}</p>
+                                </div>
+                              </Alert>
+                            ) : null}
                             <Row>
                               <div className="mb-3">
                                 <label

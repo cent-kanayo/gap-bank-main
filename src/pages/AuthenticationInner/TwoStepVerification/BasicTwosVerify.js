@@ -18,7 +18,11 @@ import ParticlesAuth from '../ParticlesAuth';
 //import images
 import logoLight from '../../../assets/images/logo-light.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { activate } from '../../../store/features/auth';
+import {
+  activate,
+  resetError,
+  resetSuccess,
+} from '../../../store/features/auth';
 
 import Navbar from '../../Landing/Navbar';
 
@@ -36,6 +40,11 @@ const BasicTwosVerify = () => {
     (state) => state.auth
   );
 
+  const resetEmail = () => {
+    dispatch(resetSuccess());
+    history('/');
+  };
+
   const onFormSubmit = (e) => {
     e.preventDefault();
     const otpNum = parseInt(otp);
@@ -51,32 +60,19 @@ const BasicTwosVerify = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActivated]);
+  useEffect(() => {
+    if (error) {
+      const timeOut = setTimeout(() => {
+        dispatch(resetError());
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
   return (
     <React.Fragment>
       <Navbar />
       <div className="auth-page-wrapper">
-        {isActivated && isActivated ? (
-          <>
-            {toast('Your Redirect To Login Page...', {
-              position: 'top-right',
-              hideProgressBar: false,
-              className: 'bg-success text-white',
-              progress: undefined,
-              toastId: '',
-            })}
-            <ToastContainer autoClose={2000} limit={1} />
-            <Alert color="success">
-              Register User Successfully and Your Redirect To Dashboard...
-            </Alert>
-          </>
-        ) : null}
-        {error && error ? (
-          <Alert color="danger">
-            <div>
-              <p>{errorMsg}</p>
-            </div>
-          </Alert>
-        ) : null}
         <ParticlesAuth>
           <div className="auth-page-content">
             <Container>
@@ -122,6 +118,32 @@ const BasicTwosVerify = () => {
                         </div>
 
                         <Form onSubmit={onFormSubmit}>
+                          {isActivated && isActivated ? (
+                            <>
+                              {toast('Your Redirect To Login Page...', {
+                                position: 'top-right',
+                                hideProgressBar: false,
+                                className: 'bg-success text-white',
+                                progress: undefined,
+                                toastId: '',
+                              })}
+                              <ToastContainer autoClose={2000} limit={1} />
+                              <Alert color="success">
+                                Register User Successfully and Your Redirect To
+                                Dashboard...
+                              </Alert>
+                            </>
+                          ) : null}
+                          {error && error ? (
+                            <Alert
+                              color="danger"
+                              style={{ padding: '8px 5%', textAlign: 'center' }}
+                            >
+                              <div>
+                                <p>{errorMsg}</p>
+                              </div>
+                            </Alert>
+                          ) : null}
                           <Row>
                             <div className="mb-3 width">
                               <label
@@ -145,6 +167,16 @@ const BasicTwosVerify = () => {
                               className="w-100"
                             >
                               Confirm
+                            </Button>
+                          </div>
+                          <div className="mt-3">
+                            <Button
+                              type="submit"
+                              color="primary"
+                              className="w-100"
+                              onClick={resetEmail}
+                            >
+                              Incorrect email? return to register
                             </Button>
                           </div>
                         </Form>

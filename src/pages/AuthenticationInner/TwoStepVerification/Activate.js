@@ -18,7 +18,7 @@ import ParticlesAuth from '../ParticlesAuth';
 //import images
 import logoLight from '../../../assets/images/logo-light.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { authorize } from '../../../store/features/auth';
+import { authorize, resetError } from '../../../store/features/auth';
 
 import Navbar from '../../Landing/Navbar';
 
@@ -31,7 +31,9 @@ const Activate = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
 
-  const { error, user, isAuthorized } = useSelector((state) => state.auth);
+  const { error, user, isAuthorized, errorMsg } = useSelector(
+    (state) => state.auth
+  );
   const onFormSubmit = (e) => {
     e.preventDefault();
     const otpNum = parseInt(otp);
@@ -47,33 +49,19 @@ const Activate = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized]);
+  useEffect(() => {
+    if (error) {
+      const timeOut = setTimeout(() => {
+        dispatch(resetError());
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
   return (
     <React.Fragment>
       <Navbar />
       <div className="auth-page-wrapper">
-        {isAuthorized && isAuthorized ? (
-          <>
-            {toast('Your Redirect To Login Page...', {
-              position: 'top-right',
-              hideProgressBar: false,
-              className: 'bg-success text-white',
-              progress: undefined,
-              toastId: '',
-            })}
-            <ToastContainer autoClose={2000} limit={1} />
-            <Alert color="success">
-              Confirmed User Successfully and Your Redirect To Dashboard...
-            </Alert>
-          </>
-        ) : null}
-        {error && error ? (
-          <Alert color="danger">
-            <div>
-              {/* {registrationError} */}
-              Unauthorized
-            </div>
-          </Alert>
-        ) : null}
         <ParticlesAuth>
           <div className="auth-page-content">
             <Container>
@@ -117,6 +105,35 @@ const Activate = () => {
                         </div>
 
                         <Form onSubmit={onFormSubmit}>
+                          {isAuthorized && isAuthorized ? (
+                            <>
+                              {toast('Your Redirect To Login Page...', {
+                                position: 'top-right',
+                                hideProgressBar: false,
+                                className: 'bg-success text-white',
+                                progress: undefined,
+                                toastId: '',
+                              })}
+                              <ToastContainer autoClose={2000} limit={1} />
+                              <Alert color="success">
+                                Register User Successfully and Your Redirect To
+                                Dashboard...
+                              </Alert>
+                            </>
+                          ) : null}
+                          {error && error ? (
+                            <Alert
+                              color="danger"
+                              style={{
+                                padding: '8px 5%',
+                                textAlign: 'center',
+                              }}
+                            >
+                              <div>
+                                <p>{errorMsg}</p>
+                              </div>
+                            </Alert>
+                          ) : null}
                           <Row>
                             <div className="mb-3 width">
                               <label

@@ -119,7 +119,10 @@ const Home = () => {
           </>
         ) : null}
         {error && error ? (
-          <Alert color="danger">
+          <Alert
+            color="danger"
+            style={{ padding: '8px 5%', textAlign: 'center' }}
+          >
             <div>
               {/* {registrationError} */}
               {errorMsg}

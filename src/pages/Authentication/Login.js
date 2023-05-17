@@ -19,7 +19,7 @@ import CountUp from 'react-countup';
 import img from '../../assets/images/auth-one.png';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { loginUser } from '../../store/features/auth';
+import { loginUser, resetError } from '../../store/features/auth';
 import Navbar from '../Landing/Navbar';
 
 const Login = () => {
@@ -46,6 +46,15 @@ const Login = () => {
       navigate('/auth-activate');
     }
   }, [dispatch, isLoggedIn, error, navigate]);
+  useEffect(() => {
+    if (error) {
+      const timeOut = setTimeout(() => {
+        dispatch(resetError());
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
   return (
     <React.Fragment>
       <Navbar />
@@ -139,6 +148,35 @@ const Login = () => {
 
                         <div className="mt-5">
                           <form onSubmit={onFormSubmit}>
+                            {isLoggedIn && isLoggedIn ? (
+                              <>
+                                {toast('Your Redirect To Login Page...', {
+                                  position: 'top-right',
+                                  hideProgressBar: false,
+                                  className: 'bg-success text-white',
+                                  progress: undefined,
+                                  toastId: '',
+                                })}
+                                <ToastContainer autoClose={2000} limit={1} />
+                                <Alert color="success">
+                                  Register User Successfully and Your Redirect
+                                  To Dashboard...
+                                </Alert>
+                              </>
+                            ) : null}
+                            {error && error ? (
+                              <Alert
+                                color="danger"
+                                style={{
+                                  padding: '8px 5%',
+                                  textAlign: 'center',
+                                }}
+                              >
+                                <div>
+                                  <p>{errorMsg}</p>
+                                </div>
+                              </Alert>
+                            ) : null}
                             <div className="mb-3">
                               <Label htmlFor="email" className="form-label">
                                 Your Email*

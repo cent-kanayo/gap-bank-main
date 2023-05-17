@@ -106,6 +106,7 @@ export const forgotPassword = createAsyncThunk(
 export const setPassword = createAsyncThunk(
   'auth/setPassword',
   async (details, thunkAPI) => {
+    const token = thunkAPI.getState().auth?.token;
     try {
       const response = await axios.post(
         `${baseUrl}/auth/set-password`,
@@ -159,6 +160,10 @@ const authSlice = createSlice({
   reducers: {
     resetError: (state) => {
       state.error = false;
+    },
+    resetSuccess: (state) => {
+      state.success = false;
+      state.loading = false;
     },
   },
   extraReducers: {
@@ -239,6 +244,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { resetError } = authSlice.actions;
+export const { resetError, resetSuccess } = authSlice.actions;
 
 export default authSlice.reducer;
