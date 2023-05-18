@@ -13,31 +13,27 @@ const Index = () => {
   return (
     <React.Fragment>
       <Routes>
-        <Route>
-          {publicRoutes.map((route, idx) => (
-            <Route
-              path={route.path}
-              element={<NonAuthLayout>{route.component}</NonAuthLayout>}
-              key={idx}
-              exact={true}
-            />
-          ))}
-        </Route>
+        {publicRoutes.map((route, idx) => (
+          <Route
+            path={route.path}
+            element={<NonAuthLayout>{route.component}</NonAuthLayout>}
+            key={idx}
+            exact={true}
+          />
+        ))}
 
-        <Route>
-          {authProtectedRoutes.map((route, idx) => (
-            <Route
-              path={route.path}
-              element={
-                <AuthProtected>
-                  <VerticalLayout>{route.component}</VerticalLayout>
-                </AuthProtected>
-              }
-              key={idx}
-              exact={true}
-            />
-          ))}
-        </Route>
+        {authProtectedRoutes.map((route, idx) => (
+          <Route
+            path={route.path}
+            element={
+              <AuthProtected>
+                <VerticalLayout>{route.component}</VerticalLayout>
+              </AuthProtected>
+            }
+            key={idx}
+            exact={true}
+          />
+        ))}
       </Routes>
     </React.Fragment>
   );

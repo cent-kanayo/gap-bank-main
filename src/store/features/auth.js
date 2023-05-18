@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const baseUrl = 'https://api.gapfinance.ng';
 
-const getUserFromStorage = () => {
+export const getUserFromStorage = () => {
   const user = localStorage.getItem('user');
   const result = user ? JSON.parse(user) : {};
   return result;
@@ -21,6 +21,7 @@ const initialState = {
   confirmPass: false,
   isActivated: false,
   isAuthorized: false,
+  isUserLogout: false,
   success: false,
   isLoggedIn: false,
   user: getUserFromStorage(),
@@ -165,6 +166,13 @@ const authSlice = createSlice({
       state.success = false;
       state.loading = false;
     },
+    logoutUser: (state) => {
+      state.user = {};
+      state.isUserLogout = true;
+      state.isAuthorized = false;
+      localStorage.removeItem('user');
+      localStorage.removeItem('gapToken');
+    },
   },
   extraReducers: {
     [registerUser.pending]: (state) => {
@@ -244,6 +252,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { resetError, resetSuccess } = authSlice.actions;
+export const { resetError, resetSuccess, logoutUser } = authSlice.actions;
 
 export default authSlice.reducer;
