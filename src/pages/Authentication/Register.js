@@ -22,7 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // action
 // import { registerUser, apiError, resetRegisterFlag } from '../../store/actions';
 
-import { registerUser } from '../../store/features/auth';
+import { registerUser, resetError } from '../../store/features/auth';
 
 //redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -43,21 +43,35 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isBusiness, setIsBusiness] = useState(false);
+  const [formError, setFormError] = useState(false);
+  const [formErrorMsg, setFormErrorMsg] = useState('');
 
-  const { error, success } = useSelector((state) => state.account);
+  const { error, errorMsg, success } = useSelector((state) => state.auth);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    if (!email || !accountType || !accountCategory) {
+      setFormError(true);
+      setFormErrorMsg('All fields are required');
+      return;
+    }
     if (
       accountCategory === 'business' &&
       accountType === 'savings' &&
       (!email || !business || !accountType)
     ) {
+      setFormError(true);
+      setFormErrorMsg(
+        'You need a business name and a current account for this category'
+      );
       return;
     }
     if (accountCategory === 'personal' && (!email || !accountType)) {
+      setFormError(true);
+      setFormErrorMsg('All fields are required');
       return;
     }
+
     if (accountCategory === 'personal') {
       dispatch(registerUser({ email, accountType, accountCategory }));
       return;
@@ -71,9 +85,15 @@ const Register = () => {
       })
     );
   };
-  // useEffect(() => {
-  //   dispatch(apiError(''));
-  // }, [dispatch]);
+  useEffect(() => {
+    if (error) {
+      const timeOut = setTimeout(() => {
+        dispatch(resetError());
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
 
   useEffect(() => {
     if (accountCategory === 'business') {
@@ -85,13 +105,13 @@ const Register = () => {
 
   useEffect(() => {
     if (success) {
-      history('/auth-activate');
+      history('/auth-twostep-basic');
     }
 
     // setTimeout(() => {
     //   dispatch(resetRegisterFlag());
     // }, 3000);
-  }, [dispatch, success, error, history]);
+  }, [dispatch, success, history]);
 
   document.title = 'SignUp on GAP Finance';
 
@@ -131,6 +151,7 @@ const Register = () => {
                         onSubmit={onFormSubmit}
                         className="needs-validation"
                       >
+                        {formError && <p className="error">{formErrorMsg}</p>}
                         {success && success ? (
                           <>
                             {toast('Your Redirect To Login Page...', {
@@ -149,11 +170,7 @@ const Register = () => {
                         ) : null}
                         {error && error ? (
                           <Alert color="danger">
-                            <div>
-                              {/* {registrationError} */}
-                              Email has been Register Before, Please Use Another
-                              Email Address...{' '}
-                            </div>
+                            <div>{errorMsg}</div>
                           </Alert>
                         ) : null}
                         {isBusiness && (
@@ -217,18 +234,6 @@ const Register = () => {
                             placeholder="Enter email"
                             onChange={(e) => setEmail(e.target.value)}
                             value={email}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <Label htmlFor="userpassword" className="form-label">
-                            Password <span className="text-danger">*</span>
-                          </Label>
-                          <Input
-                            name="password"
-                            type="password"
-                            placeholder="Enter Password"
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
                           />
                         </div>
 

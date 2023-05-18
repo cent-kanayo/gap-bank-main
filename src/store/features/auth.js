@@ -37,6 +37,9 @@ export const registerUser = createAsyncThunk(
       });
       return data;
     } catch (error) {
+      if (error.message === 'Network Error') {
+        return thunkAPI.rejectWithValue('Please connect to internet');
+      }
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
@@ -55,6 +58,9 @@ export const activate = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      if (error.message === 'Network Error') {
+        return thunkAPI.rejectWithValue('Please connect to internet');
+      }
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
@@ -68,7 +74,9 @@ export const authorize = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      console.log(error);
+      if (error.message === 'Network Error') {
+        return thunkAPI.rejectWithValue('Please connect to internet');
+      }
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
@@ -83,7 +91,9 @@ export const loginUser = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
+      if (error.message === 'Network Error') {
+        return thunkAPI.rejectWithValue('Please connect to internet');
+      }
       return thunkAPI.rejectWithValue('Invalid credentials');
     }
   }
@@ -98,7 +108,9 @@ export const forgotPassword = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      console.log(error);
+      if (error.message === 'Network Error') {
+        return thunkAPI.rejectWithValue('Please connect to internet');
+      }
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
@@ -116,10 +128,12 @@ export const setPassword = createAsyncThunk(
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         }
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
+      if (error.message === 'Network Error') {
+        return thunkAPI.rejectWithValue('Please connect to internet');
+      }
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
@@ -138,6 +152,9 @@ export const getAuthUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error);
+      if (error.message === 'Network Error') {
+        return thunkAPI.rejectWithValue('Please connect to internet');
+      }
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
@@ -150,6 +167,9 @@ export const checkToken = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error);
+      if (error.message === 'Network Error') {
+        return thunkAPI.rejectWithValue('Please connect to internet');
+      }
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }

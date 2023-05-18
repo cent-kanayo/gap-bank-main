@@ -13,15 +13,6 @@ import avatar1 from '../../assets/images/users/avatar-1.jpg';
 const ProfileDropdown = () => {
   const { user } = useSelector((state) => state.auth);
 
-  const [userName, setUserName] = useState('Admin');
-
-  useEffect(() => {
-    if (localStorage.getItem('user')) {
-      const obj = JSON.parse(localStorage.getItem('authUser'));
-      setUserName(obj?.email ?? 'Admin');
-    }
-  }, [userName, user]);
-
   //Dropdown Toggle
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
   const toggleProfileDropdown = () => {

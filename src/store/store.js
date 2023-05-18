@@ -12,7 +12,7 @@ export const store = configureStore({
     users: usersSlice,
     settings: settingsSlice,
     permission: permissionSlice,
-    transaction: transactionsSlice,
+    transactions: transactionsSlice,
     account: accountSlice,
   },
 });

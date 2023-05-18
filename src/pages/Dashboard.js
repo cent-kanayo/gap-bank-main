@@ -21,12 +21,21 @@ import { Link } from 'react-router-dom';
 
 import { StoreVisitsCharts } from '../Components/Common/DashboardCharts';
 import { TransactionsTable } from './Transfer/Components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchTransactions } from '../store/features/transactions';
 
 const Dashboard = () => {
   document.title = 'GAP Finance | Account';
-
+  const { transactions } = useSelector((state) => state.transactions);
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  console.log(transactions);
+  useEffect(() => {
+    dispatch(fetchTransactions());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <React.Fragment>
       <div className="page-content">

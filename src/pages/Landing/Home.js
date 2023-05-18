@@ -103,32 +103,6 @@ const Home = () => {
   return (
     <React.Fragment>
       <section className="section hero-section bg-light pb-0" id="home">
-        {success && success ? (
-          <>
-            {toast('Your Redirect To Login Page...', {
-              position: 'top-right',
-              hideProgressBar: false,
-              className: 'bg-success text-white',
-              progress: undefined,
-              toastId: '',
-            })}
-            <ToastContainer autoClose={2000} limit={1} />
-            <Alert color="success">
-              Register User Successfully and Your Redirect To Dashboard...
-            </Alert>
-          </>
-        ) : null}
-        {error && error ? (
-          <Alert
-            color="danger"
-            style={{ padding: '8px 5%', textAlign: 'center' }}
-          >
-            <div>
-              {/* {registrationError} */}
-              {errorMsg}
-            </div>
-          </Alert>
-        ) : null}
         <div className="hero">
           <div className="hero__left">
             <h1 className="fw-bold text-capitalize mb-3 lh-base text-primary mobile-text">
@@ -147,6 +121,32 @@ const Home = () => {
             </p>
 
             <Form onSubmit={onFormSubmit} className="job-panel-filter">
+              {success && success ? (
+                <>
+                  {toast('Your Redirect To Login Page...', {
+                    position: 'top-right',
+                    hideProgressBar: false,
+                    className: 'bg-success text-white',
+                    progress: undefined,
+                    toastId: '',
+                  })}
+                  <ToastContainer autoClose={2000} limit={1} />
+                  <Alert color="success">
+                    Register User Successfully and Your Redirect To Dashboard...
+                  </Alert>
+                </>
+              ) : null}
+              {error && error ? (
+                <Alert
+                  color="danger"
+                  style={{ padding: '8px 5%', textAlign: 'center' }}
+                >
+                  <div>
+                    {/* {registrationError} */}
+                    {errorMsg}
+                  </div>
+                </Alert>
+              ) : null}
               {formError && <p className="error">{formErrorMsg}</p>}
               <Row xs="1" md="2" lg="3">
                 <Col className="col-md-4 mb-2">
