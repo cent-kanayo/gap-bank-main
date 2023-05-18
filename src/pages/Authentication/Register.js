@@ -186,7 +186,9 @@ const Register = () => {
                               name="businessName"
                               className="form-control"
                               placeholder="Enter business"
-                              onChange={(e) => setBusinessName(e.target.value)}
+                              onChange={(e) =>
+                                setBusinessName(e.target.value.trim())
+                              }
                               value={business}
                             />
                           </div>
@@ -232,7 +234,7 @@ const Register = () => {
                             name="first_name"
                             type="email"
                             placeholder="Enter email"
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value.trim())}
                             value={email}
                           />
                         </div>

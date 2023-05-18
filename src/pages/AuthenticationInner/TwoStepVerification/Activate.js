@@ -146,7 +146,7 @@ const Activate = () => {
                                 type="text"
                                 className="form-control form-control-lg bg-light border-light width"
                                 value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
+                                onChange={(e) => setOtp(e.target.value.trim())}
                               />
                             </div>
                           </Row>

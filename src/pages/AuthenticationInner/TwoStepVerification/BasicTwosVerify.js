@@ -47,7 +47,7 @@ const BasicTwosVerify = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    const otpNum = parseInt(otp);
+    const otpNum = parseInt(otp.trim());
     if (!otpNum) {
       return;
     }

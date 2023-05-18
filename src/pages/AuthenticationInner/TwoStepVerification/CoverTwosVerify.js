@@ -118,7 +118,7 @@ const CoverTwosVerify = () => {
                                   className="form-control form-control-lg bg-light border-light width"
                                   value={password}
                                   onChange={(e) =>
-                                    setUserPassword(e.target.value)
+                                    setUserPassword(e.target.value.trim())
                                   }
                                 />
                               </div>
