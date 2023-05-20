@@ -5,6 +5,7 @@ import settingsSlice from './features/settings';
 import permissionSlice from './features/permission';
 import transactionsSlice from './features/transactions';
 import accountSlice from './features/account';
+import rootReducer from './reducers';
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     permission: permissionSlice,
     transactions: transactionsSlice,
     account: accountSlice,
+    rootReducer,
   },
 });

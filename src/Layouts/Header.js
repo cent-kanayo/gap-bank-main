@@ -17,7 +17,12 @@ import NotificationDropdown from '../Components/Common/NotificationDropdown';
 import ProfileDropdown from '../Components/Common/ProfileDropdown';
 import LightDark from '../Components/Common/LightDark';
 
-const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
+const Header = ({
+  onChangeLayoutMode,
+  layoutModeType,
+  headerClass,
+  onShowSidebar,
+}) => {
   const [search, setSearch] = useState(false);
   const toogleSearch = () => {
     setSearch(!search);
@@ -28,6 +33,7 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
 
     if (windowSize > 767)
       document.querySelector('.hamburger-icon').classList.toggle('open');
+    onShowSidebar();
 
     //For collapse horizontal menu
     if (document.documentElement.getAttribute('data-layout') === 'horizontal') {
